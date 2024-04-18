@@ -5,6 +5,9 @@ function createGameBoard(rows, columns) {
         children: []
     });
 
+    let cellCounter = 0; // Counter to track the number of cells
+
+
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             let cellClass = 'cell';
@@ -17,6 +20,15 @@ function createGameBoard(rows, columns) {
                 style: ['grid-column', j + 1, 'grid-row', i + 1],
             });
             createChild(board, cell);
+
+            cellCounter++; // Increment the cell counter
+            
+            // Check if it's the 11th cell
+            if (cellCounter % 11 === 0 && cellCounter !== rows * columns) {
+                const lineBreak = createStructure({ tag: 'br' }); // Create <br> element
+                createChild(board, lineBreak); // Append <br> element
+            }
+
         }
     }
     return board;

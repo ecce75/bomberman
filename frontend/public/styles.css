@@ -10,10 +10,14 @@
     grid-gap: 2px;
 }
 .cell {
-    width: 50px;
-    height: 50px;
-    background-color: lightgrey;
+    display: inline-block; 
+    width: 50px; 
+    height: 50px; 
+    border: 1px solid black; 
+    box-sizing: border-box; 
 }
+
+
 .cell.indestructible {
     background-color: darkgrey;
 }
