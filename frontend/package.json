@@ -1,0 +1,25 @@
+{
+  "name": "bomberman",
+  "version": "1.0.0",
+  "description": "bomberman-dom",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecce75/bomberman.git"
+  },
+  "keywords": [
+    "bomberman"
+  ],
+  "author": "Ekke and co",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ecce75/bomberman/issues"
+  },
+  "homepage": "https://github.com/ecce75/bomberman#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  }
+}
