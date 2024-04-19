@@ -22,7 +22,7 @@ function createGameBoard(rows, columns) {
             createChild(board, cell);
 
             cellCounter++; // Increment the cell counter
-            
+
             // Check if it's the 11th cell
             if (cellCounter % 11 === 0 && cellCounter !== rows * columns) {
                 const lineBreak = createStructure({ tag: 'br' }); // Create <br> element

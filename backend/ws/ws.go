@@ -93,7 +93,7 @@ func addToLobby(client *Client) {
 			Players: make(map[string]*Client),
 			Timer:   time.NewTimer(5 * time.Minute), // Auto-start game after 5 minutes if not full
 		}
-		lobby.Timer.C = make(chan<- time.Time, 1)
+		// lobby.Timer.C = make(chan<- time.Time, 1)
 		go lobbyTimeout(lobby)
 		lobbies[lobbyID] = lobby
 	}

@@ -22,8 +22,14 @@ function loadState() {
 function createChild(parent, child) {
     if (child instanceof Node) {
         parent.appendChild(child);
-    } else {
+    } else if (typeof child === 'string' || child instanceof String) {
         parent.appendChild(document.createTextNode(child));
+    } else if (typeof child === 'object') {
+        // Assume it's a structure object and needs to be created
+        const childElement = createStructure(child);
+        parent.appendChild(childElement);
+    } else {
+        console.error('Unsupported child type:', child);
     }
 }
 
@@ -92,3 +98,5 @@ function addEvent(eventType, element, callback) {
 function removeEvent(eventType, element) {
     element.removeEventListener(eventType);
 }
+
+export { state, saveState, loadState, createChild, removeChild, createStructure, setAttributes, setStyles, getParent, redirect, addEvent, removeEvent}

@@ -2,7 +2,7 @@
   "name": "bomberman",
   "version": "1.0.0",
   "description": "bomberman-dom",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "test"
   },
