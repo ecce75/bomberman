@@ -7,13 +7,10 @@ import './ws/ws.js';
 import registerView from "./views/registerView.js";
 import gameView from "./views/gameView.js";
 
-
-
 // app.js
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
-
 
 function initializeApp() {
     const root = document.getElementById('root');

@@ -2,19 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
+    background-color: #554e4e;
+}
+
+#root {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #554e4e;
+}
+.chatbox,
+.scoreboard {
+    text-align: center;
+    height: 624px;
+    width: 210px;
+    background-color: #C8C8C8;
 }
 
 .game-board {
     width: 550px;
-    outline: 35px solid rgb(8, 8, 35);
+    outline: 35px solid #C8C8C8;
+    border: 3px solid #FFFFFE;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
 }
 .cell {
     display: inline-block;

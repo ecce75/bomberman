@@ -1,5 +1,32 @@
 import {createStructure, createChild} from "/framework.js";
 
+export function createChatbox() {
+    const chatbox = createStructure({
+        tag: 'div',
+        attr: ['class', 'chatbox'],
+        children: [
+            {
+                tag: 'h3',
+                children: 'Messages'
+            },
+            {
+                tag: 'div',
+                attr: ['id', 'chatMessages']
+            },
+            {
+                tag: 'input',
+                attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Type your message...']
+            },
+            {
+                tag: 'button',
+                attr: ['id', 'sendButton'],
+                children: 'Send'
+            }
+        ]
+    });
+    return chatbox;
+}
+
 export function createGameBoard(rows, columns) {
     const board = createStructure({
         tag: 'div',
@@ -30,13 +57,28 @@ export function createGameBoard(rows, columns) {
                 const lineBreak = createStructure({ tag: 'br' }); // Create <br> element
                 createChild(board, lineBreak); // Append <br> element
             }
-
         }
     }
     return board;
 }
 
 
+export function createScoreboard() {
+    const score = createStructure({
+        tag: 'div',
+        attr: ['class', 'scoreboard'],
+        children: [
+            { tag: 'h3', children: 'Timer' },
+            { tag: 'p', attr:'minutes' ,children: '00'},
+            { tag: 'p', attr:'colon' ,children: ':'},
+            { tag: 'p', attr:'seconds' ,children: '00'},
+        ]
+    });
+    return score;
+}
+
+
+/*
 function createPlayer() {
     return createStructure({
         tag: 'div',
@@ -47,4 +89,4 @@ function createPlayer() {
 function placePlayer(board, player, startPosition) {
     const startCell = board.children[startPosition];
     createChild(startCell, player);
-}
+}*/
