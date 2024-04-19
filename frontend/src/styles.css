@@ -3,24 +3,34 @@
 @tailwind utilities;
 
 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #554e4e;
+}
 
 .game-board {
-    display: grid;
-    grid-template-columns: repeat(11, 1fr);
-    grid-gap: 2px;
+    width: 550px;
+    outline: 35px solid rgb(8, 8, 35);
 }
 .cell {
-    display: inline-block; 
-    width: 50px; 
-    height: 50px; 
-    border: 1px solid black; 
-    box-sizing: border-box; 
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: #3C7B01;
+    box-sizing: border-box;
+    margin-bottom: -4px;
 }
-
 
 .cell.indestructible {
-    background-color: darkgrey;
+    background-color: #C8C8C8;
+    border: 3px solid #FFFFFE;
+    border-bottom: 3px solid black;
 }
+
 .player {
     background-color: blue;
     width: 100%;
