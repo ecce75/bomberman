@@ -66,7 +66,6 @@ function setAttributes(element, attributes) {
         }
         if (key.startsWith('on')) {
             const eventName = key.slice(2).toLowerCase();
-            console.log(eventName, value, key)
             element.addEventListener(eventName, value);
         } else {
             element.setAttribute(key, value);
@@ -78,7 +77,6 @@ function setStyles(element, styles) {
     for (let i = 0; i < styles.length; i += 2) {
         let key = styles[i];
         let value = styles[i + 1];
-        console.log(key, value)
         if (value === null || value === undefined) {
             continue;
         }

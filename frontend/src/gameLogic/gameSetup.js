@@ -26,7 +26,23 @@ export function createChatbox() {
     });
 }
 
-export function createGameBoard(rows, columns) {
+// Documentation for map field codes: {
+//     0: "free",
+//     1: "indestructible",
+//     2: "destructible",
+//     3: "player1",
+//     4: "player2",
+//     5: "player3",
+//     6: "player4",
+//     7: "bomb",
+//     8: "booked" // for development purposes
+//     9: "powerup: speed"
+//     10: "powerup: explosion length"
+//     11: "powerup: bombCount"
+//     9: "flame"
+// }
+
+export function createGameBoard(map) {
     const board = createStructure({
         tag: 'div',
         attr: ['class', 'game-board'],
@@ -36,12 +52,28 @@ export function createGameBoard(rows, columns) {
     let cellCounter = 0; // Counter to track the number of cells
 
 
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < columns; j++) {
+    for (let i = 0; i < 13; i++) {
+        for (let j = 0; j < 13; j++) {
             let cellClass = 'cell';
-            if ((i % 2 !== 0) && (j % 2 !== 0)) {
+            if (map[i][j] === 1) {
                 cellClass += ' indestructible'; // Add indestructible obstacles at every other row and column
             }
+            if (map[i][j] === 2) {
+                cellClass += ' destructible'; // Add destructible obstacles at every other row and column
+            }
+            if (map[i][j] === 3) {
+                cellClass += ' player1'; // Add player1 at the first cell
+            }
+            if (map[i][j] === 4) {
+                cellClass += ' player2'; // Add player2 at the second cell
+            }
+            if (map[i][j] === 5) {
+                cellClass += ' player3'; // Add player3 at the third cell
+            }
+            if (map[i][j] === 6) {
+                cellClass += ' player4'; // Add player4 at the fourth cell
+            }
+            
             const cell = createStructure({
                 tag: 'div',
                 attr: ['class', cellClass],
@@ -51,8 +83,8 @@ export function createGameBoard(rows, columns) {
 
             cellCounter++; // Increment the cell counter
 
-            // Check if it's the 11th cell
-            if (cellCounter % 11 === 0 && cellCounter !== rows * columns) {
+            // Check if it's the 13th cell
+            if (cellCounter % 13 === 0 && cellCounter !== 13 * 13) {
                 const lineBreak = createStructure({ tag: 'br' }); // Create <br> element
                 createChild(board, lineBreak); // Append <br> element
             }

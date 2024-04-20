@@ -1,58 +1,26 @@
 package ws
 
 import (
+	"fmt"
 	"github.com/google/uuid"
 	"log"
 )
 
-func initializeGame(lobby *Lobby) {
-	gameID := uuid.New().String()
-	newGame := &Game{
-		ID:      gameID,
-		Players: make(map[string]*Client),
-	}
-
-	for _, client := range lobby.Players {
-		newGame.Players[client.ID] = client
-	}
-
-	games[gameID] = newGame
-	delete(lobbies, lobby.ID) // Optionally remove lobby if no longer needed
-
-	// Broadcast game start
-	startGameMsg := wsMessage{
-		Type:    "startGame",
-		Payload: "Game Starting",
-	}
-	for _, cl := range newGame.Players {
-		if err := cl.Conn.WriteJSON(startGameMsg); err != nil {
-			log.Printf("error: failed to start game for client %s", cl.ID)
-			handleDisconnect(cl.ID)
-		}
-	}
-}
-
-func handleRestartGame(client *Client) {
-	lobby, ok := lobbies[client.LobbyID]
-	if !ok {
-		log.Printf("Lobby not found for client %s", client.ID)
-		return
-	}
-
-	// Restart game logic
-	initializeGame(lobby)
-}
-
 func startGame(lobby *Lobby) {
 	gameID := uuid.New().String()
-	newGame := &Game{
+	newGame := &GameWs{
 		ID:      gameID,
 		Players: lobby.Players,
 		Timer:   nil, // No timer for now
 	}
 	games[gameID] = newGame
+	gameMap := NewGameMap(lobby.Players)
+	fmt.Println(gameMap)
 	for _, client := range newGame.Players {
-		client.Conn.WriteJSON(wsMessage{Type: "gameStart", Payload: "The game has started!"})
+		client.Conn.WriteJSON(wsMessage{Type: "gameStart", Payload: map[string]interface{}{
+			"gameID":  gameID,
+			"gameMap": gameMap.gameMap,
+		}})
 	}
 	delete(lobbies, lobby.ID) // Remove lobby once game starts
 }
@@ -70,7 +38,7 @@ func handleGameInput(client *Client, input wsMessage) {
 	processPlayerMovement(game, client.ID, direction)
 }
 
-func processPlayerMovement(game *Game, clientID string, direction string) {
+func processPlayerMovement(game *GameWs, clientID string, direction string) {
 	// Retrieve player
 	player, ok := game.Players[clientID]
 	if !ok {
@@ -89,33 +57,4 @@ func processPlayerMovement(game *Game, clientID string, direction string) {
 	}
 
 	// Implement other directions and validate the moves
-}
-
-func placeBomb(game *Game, clientID string, position map[string]int) {
-	player, ok := game.Players[clientID]
-	if !ok {
-		log.Println("Player not found in the game for bomb placement")
-		return
-	}
-	println(player)
-
-	// Assume we get x, y coordinates for bomb placement
-	x, y := position["x"], position["y"]
-
-	// Validate bomb placement, update game state, start explosion timer etc.
-	// Bomb logic here
-	log.Printf("Bomb placed by %s at (%d, %d)", clientID, x, y)
-	// Implement bomb explosion timer and effect
-}
-
-func handleBombPlaced(client *Client, payload interface{}) {
-	game, ok := games[client.LobbyID]
-	if !ok {
-		log.Println("Game not found for bomb placement")
-		return
-	}
-
-	// Assuming payload contains bomb placement coordinates
-	position := payload.(map[string]int)
-	placeBomb(game, client.ID, position)
 }
