@@ -1,25 +1,28 @@
 {
-  "name": "bomberman",
+  "name": "frontend",
   "version": "1.0.0",
-  "description": "bomberman-dom",
-  "main": "app.js",
+  "description": "",
+  "main": "./src/app.js",
+
   "scripts": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ecce75/bomberman.git"
-  },
-  "keywords": [
-    "bomberman"
-  ],
-  "author": "Ekke and co",
+    "tailwind:css": "postcss ./src/styles.css -o ./src/output.css",
+    "watch:css": "nodemon --watch 'src/**/*' --exec 'npm run tailwind:css'",
+    "start:go": "cd ../backend && go run server.go",
+    "dev": "concurrently \"npm run watch:css\" \"npm run start:go\""
+  }
+
+,
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ecce75/bomberman/issues"
-  },
-  "homepage": "https://github.com/ecce75/bomberman#readme",
-  "devDependencies": {
+  "dependencies": {
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
     "tailwindcss": "^3.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

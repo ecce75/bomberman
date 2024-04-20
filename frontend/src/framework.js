@@ -29,7 +29,7 @@ function createChild(parent, child) {
         const childElement = createStructure(child);
         parent.appendChild(childElement);
     } else {
-        console.error('Unsupported child type:', child);
+        console.log('Unsupported child type:', child);
     }
 }
 
@@ -37,6 +37,7 @@ function removeChild(parent, child) {
     parent.removeChild(child);
 }
 function createStructure(structure) {
+    console.log(structure.attr)
     let parent = document.createElement(structure.tag);
     if ('attr' in structure) {
         setAttributes(parent, structure.attr);
@@ -64,7 +65,13 @@ function setAttributes(element, attributes) {
         if (value === null || value === undefined) {
             continue;
         }
-        element.setAttribute(key, value);
+        if (key.startsWith('on')) {
+            const eventName = key.slice(2).toLowerCase();
+            console.log(eventName, value, key)
+            element.addEventListener(eventName, value);
+        } else {
+            element.setAttribute(key, value);
+        }
     }
 }
 

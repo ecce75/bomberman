@@ -16,6 +16,7 @@ var upgrader = websocket.Upgrader{
 
 type Client struct {
 	ID      string
+	Name    string
 	Conn    *websocket.Conn
 	LobbyID string
 }
@@ -27,16 +28,17 @@ type Game struct {
 }
 
 type Lobby struct {
-	ID      string
-	Players map[string]*Client
-	Timer   *time.Timer
+	ID       string
+	Players  map[string]*Client
+	Timer    *time.Timer
+	TimeLeft int
 }
 
 var clients = make(map[string]*Client)
 var lobbies = make(map[string]*Lobby)
 var games = make(map[string]*Game)
 
-func HandleConnections(w http.ResponseWriter, r *http.Request) {
+func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -47,6 +49,12 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 	clientID := uuid.New().String()
 	newClient := &Client{ID: clientID, Conn: ws}
 	clients[clientID] = newClient
+
+	ws.SetCloseHandler(func(code int, text string) error {
+		log.Printf("WebSocket closed for client %s, code: %d, reason: %s", clientID, code, text)
+		handleDisconnect(clientID)
+		return nil
+	})
 
 	// Example of adding to lobby
 	// This needs actual implementation
@@ -66,6 +74,13 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 
 func handleMessages(msg *wsMessage, client *Client) {
 	switch msg.Type {
+	case "setUsername":
+		name, ok := msg.Payload.(string)
+		if !ok {
+			client.Conn.WriteJSON(wsMessage{Type: "invalidUsername", Payload: "Invalid username"})
+			return
+		}
+		client.Name = name
 	case "chatMessage":
 		// Handle chat message
 	case "gameInput":
@@ -89,12 +104,14 @@ func addToLobby(client *Client) {
 	if lobby == nil {
 		lobbyID := uuid.New().String()
 		lobby = &Lobby{
-			ID:      lobbyID,
-			Players: make(map[string]*Client),
-			Timer:   time.NewTimer(5 * time.Minute), // Auto-start game after 5 minutes if not full
+			ID:       lobbyID,
+			Players:  make(map[string]*Client),
+			Timer:    time.NewTimer(20 * time.Second), // Auto-start game after 20 seconds if not full
+			TimeLeft: 20,
 		}
-		// lobby.Timer.C = make(chan<- time.Time, 1)
-		go lobbyTimeout(lobby)
+		if len(lobby.Players) == 1 { // Assuming countdown starts when the first player joins
+			go lobbyCountdown(lobby)
+		}
 		lobbies[lobbyID] = lobby
 	}
 
@@ -114,6 +131,26 @@ func lobbyTimeout(lobby *Lobby) {
 	}
 }
 
+func lobbyCountdown(lobby *Lobby) {
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			lobby.TimeLeft--
+			broadcastTimeLeft(lobby)
+			if lobby.TimeLeft <= 0 {
+				startGame(lobby)
+				return
+			}
+		case <-lobby.Timer.C: // If the timer finishes separately
+			startGame(lobby)
+			return
+		}
+	}
+}
+
 func broadcastLobbyStatus(lobby *Lobby) {
 	countMsg := wsMessage{
 		Type:    "updateCounter",
@@ -124,6 +161,19 @@ func broadcastLobbyStatus(lobby *Lobby) {
 		if err != nil {
 			log.Printf("error: failed to send lobby status to client %s", cl.ID)
 			handleDisconnect(cl.ID)
+		}
+	}
+}
+
+func broadcastTimeLeft(lobby *Lobby) {
+	timeMsg := wsMessage{
+		Type:    "updateTime",
+		Payload: lobby.TimeLeft,
+	}
+	for _, client := range lobby.Players {
+		if err := client.Conn.WriteJSON(timeMsg); err != nil {
+			log.Printf("error: failed to send time update to client %s: %v", client.ID, err)
+			handleDisconnect(client.ID)
 		}
 	}
 }
