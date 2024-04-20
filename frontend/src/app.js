@@ -6,8 +6,6 @@ import {createChild} from "./framework.js";
 import './ws/ws.js';
 import registerView from "./views/registerView.js";
 
-
-
 // app.js
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();

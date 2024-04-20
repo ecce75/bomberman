@@ -1,4 +1,4 @@
-function handlePlayerMovement(event, player) {
+export default function handlePlayerMovement(event, player) {
     // Logic to move player based on key press (left, right, up, down)
     switch (event.keyCode) {
         case 37: // Arrow Left

@@ -106,8 +106,8 @@ func addToLobby(client *Client) {
 		lobby = &Lobby{
 			ID:       lobbyID,
 			Players:  make(map[string]*Client),
-			Timer:    time.NewTimer(20 * time.Second), // Auto-start game after 20 seconds if not full
-			TimeLeft: 20,
+			Timer:    time.NewTimer(2 * time.Second), // Auto-start game after 20 seconds if not full
+			TimeLeft: 2,
 		}
 		if len(lobby.Players) == 1 { // Assuming countdown starts when the first player joins
 			go lobbyCountdown(lobby)

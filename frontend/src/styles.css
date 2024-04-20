@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+.chatbox,
+.scoreboard {
+    text-align: center;
+    height: 624px;
+    width: 210px;
+    background-color: #C8C8C8;
+}
+
+.game-board {
+    width: 550px;
+    outline: 35px solid #C8C8C8;
+    border: 3px solid #FFFFFE;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+.cell {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: #3C7B01;
+    box-sizing: border-box;
+    margin-bottom: -4px;
+}
+
+.cell.indestructible {
+    background-color: #C8C8C8;
+    border: 3px solid #FFFFFE;
+    border-bottom: 3px solid black;
+}
+
+.player {
+    background-color: blue;
+    width: 100%;
+    height: 100%;
+}
 
     .textbox-style {
         @apply text-center bg-slate-100 text-slate-700 placeholder-gray-400 border border-amber-200 focus:border-amber-100 rounded py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-slate-50;
