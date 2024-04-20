@@ -1,12 +1,11 @@
 function createGameBoard(rows, columns) {
     const board = createStructure({
         tag: 'div',
-        atr: ['class', 'game-board'],
+        attr: ['class', 'game-board'],
         children: []
     });
 
     let cellCounter = 0; // Counter to track the number of cells
-
 
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
@@ -28,7 +27,6 @@ function createGameBoard(rows, columns) {
                 const lineBreak = createStructure({ tag: 'br' }); // Create <br> element
                 createChild(board, lineBreak); // Append <br> element
             }
-
         }
     }
     return board;
@@ -41,8 +39,8 @@ function createPlayer() {
     });
 }
 
-function placePlayer(board, player, startPosition) {
-    const startCell = board.children[startPosition];
-    createChild(startCell, player);
-}
 
+// Usage
+const gameBoard = createGameBoard(11, 11);
+const player = createPlayer();
+placePlayer(gameBoard, player, 0); // Place player at the top-left corner
