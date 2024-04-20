@@ -10,7 +10,7 @@ export default function registerView() {
         attr: ['id', 'entryForm', 'class', 'flex flex-col items-center justify-center min-h-screen bg-default'],
         children: [
             {tag: 'div',
-                attr: ['class', 'flex flex-col items-center w-full max-w-lg bg-amber-300 shadow-md rounded px-16 pt-12 pb-8 mb-4'],
+                attr: ['class', 'flex flex-col items-center w-full max-w-lg bg-gradient-to-t from-amber-500 to-red-600 shadow-md rounded-lg px-16 pt-12 pb-8 mb-4'],
                 children: [
             {
                 tag: 'h1',

@@ -1,7 +1,7 @@
-import {createStructure, createChild} from "/framework.js";
+import {createChild, createStructure} from "/framework.js";
 
 export function createChatbox() {
-    const chatbox = createStructure({
+    return createStructure({
         tag: 'div',
         attr: ['class', 'chatbox'],
         children: [
@@ -24,7 +24,6 @@ export function createChatbox() {
             }
         ]
     });
-    return chatbox;
 }
 
 export function createGameBoard(rows, columns) {

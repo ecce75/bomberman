@@ -5,7 +5,6 @@ import './views/gameView.js';
 import {createChild} from "./framework.js";
 import './ws/ws.js';
 import registerView from "./views/registerView.js";
-import gameView from "./views/gameView.js";
 
 // app.js
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,5 +14,5 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     const root = document.getElementById('root');
     root.innerHTML = ''; // Clear previous content if any
-    createChild(root, gameView());
+    createChild(root, registerView());
 }

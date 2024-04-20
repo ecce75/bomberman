@@ -5,10 +5,14 @@ export function lobbyView() {
 
     const structure = {
         tag: 'div',
+        attr: ['class', 'flex flex-col items-center justify-center min-h-screen bg-default'],
+        children: [{
+        tag: 'div',
         attr: ['id', 'lobby'],
         children: [
             { tag: 'h1', children: 'Lobby' },
             { tag: 'p', children: 'Waiting for more players...' },
+            { tag: 'p', children: ['Game will start in ... ', { tag: 'span', attr: ['id', 'countdown'], children: '' }, ' seconds.' ]},
             {
                 tag: 'p',
                 children: [
@@ -16,7 +20,7 @@ export function lobbyView() {
                     { tag: 'span', attr: ['id', 'playerCount'], children: '0' }
                 ]
             }
-        ]
+        ]}]
     };
 
     const content = createStructure(structure);

@@ -1,4 +1,5 @@
 import {lobbyView} from "/views/lobbyView.js";
+import {gameView} from "/views/gameView.js";
 
 
 
@@ -11,11 +12,13 @@ function setupWebSocket() {
                 document.getElementById('playerCount').textContent = msg.payload.toString();
                 break;
             case 'updateTime':
-                document.getElementById('playerCount').textContent = msg.payload.toString();
+                document.getElementById('countdown').textContent = msg.payload.toString();
                 break;
+            case 'gameStart':
+                gameView();
             case "invalidUsername":
-                alert("Username already taken")
-                window.reload()
+                // alert("Username already taken")
+                // window.reload()
             // Handle other messages
         }
     };
