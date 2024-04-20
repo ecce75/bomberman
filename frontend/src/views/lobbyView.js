@@ -1,4 +1,8 @@
-function lobbyView() {
+import {createStructure} from "/framework.js";
+
+export function lobbyView() {
+    const root = document.getElementById('root'); // Ensure you have a div with id="root" in your HTML
+
     const structure = {
         tag: 'div',
         attr: ['id', 'lobby'],
@@ -15,5 +19,7 @@ function lobbyView() {
         ]
     };
 
-    return createStructure(structure);
+    const content = createStructure(structure);
+    root.innerHTML = '';  // Clear existing content
+    root.appendChild(content);
 }
