@@ -590,13 +590,12 @@ video {
 .chatbox,
 .scoreboard {
     text-align: center;
-    height: 624px;
+    height: 719px;
     width: 210px;
     background-color: #C8C8C8;
 }
 
 .game-board {
-
     outline: 35px solid #C8C8C8;
     border: 3px solid #FFFFFE;
     border-top: 3px solid black;
@@ -608,7 +607,7 @@ video {
     height: 50px;
     background-color: #3C7B01;
     box-sizing: border-box;
-    margin-bottom: -4px;
+    margin-bottom: -6px;
 }
 
 .cell.indestructible {
@@ -616,13 +615,37 @@ video {
     border: 3px solid #FFFFFE;
     border-bottom: 3px solid black;
 }
-
-.player {
-    background-color: blue;
-    width: 100%;
-    height: 100%;
+.cell.player1 {
+  background-image: url('public/images/player1.png'); 
+  background-size: cover; 
+  width: 50px;
+  height: 50px;
+}
+.cell.player2 {
+  background-image: url('public/images/player2.png');
+  background-size: cover; 
+  width: 50px;
+  height: 50px;
+}
+.cell.player3 {
+  background-image: url('public/images/player3.png'); 
+  background-size: cover; 
+  width: 50px;
+  height: 50px;
+}
+.cell.player4 {
+  background-image: url('public/images/player4.png'); 
+  background-size: cover; 
+  width: 50px;
+  height: 50px;
 }
 
+
+.cell.destructible {
+  background-image: url('public/images/destructible-wall.png');
+  background-size: cover;
+
+}
     .textbox-style {
   margin-bottom: 1rem;
   border-radius: 0.25rem;
