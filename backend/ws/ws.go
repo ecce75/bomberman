@@ -22,7 +22,7 @@ type Client struct {
 	LobbyID string
 }
 
-type Game struct {
+type GameWs struct {
 	ID      string
 	Players map[string]*Client
 	Timer   *time.Timer
@@ -37,7 +37,7 @@ type Lobby struct {
 
 var clients = make(map[string]*Client)
 var lobbies = make(map[string]*Lobby)
-var games = make(map[string]*Game)
+var games = make(map[string]*GameWs)
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
