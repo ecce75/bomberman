@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
 .chatbox,
 .scoreboard {
     text-align: center;
@@ -18,7 +11,7 @@
 }
 
 .game-board {
-    width: 550px;
+
     outline: 35px solid #C8C8C8;
     border: 3px solid #FFFFFE;
     border-top: 3px solid black;
@@ -47,6 +40,9 @@
 
     .textbox-style {
         @apply text-center bg-slate-100 text-slate-700 placeholder-gray-400 border border-amber-200 focus:border-amber-100 rounded py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-slate-50;
+    }
+    #gameView {
+        @apply flex justify-center items-center min-h-screen m-0
     }
 
 

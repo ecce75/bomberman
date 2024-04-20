@@ -528,9 +528,8 @@ video {
 .rounded {
   border-radius: 0.25rem;
 }
-.bg-amber-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(252 211 77 / var(--tw-bg-opacity));
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 .bg-green-700 {
   --tw-bg-opacity: 1;
@@ -538,6 +537,17 @@ video {
 }
 .bg-default {
   background-image: linear-gradient(to top, #93cf30, #e2ac20, #c62222);
+}
+.bg-gradient-to-t {
+  background-image: linear-gradient(to top, var(--tw-gradient-stops));
+}
+.from-amber-500 {
+  --tw-gradient-from: #f59e0b var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(245 158 11 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.to-red-600 {
+  --tw-gradient-to: #dc2626 var(--tw-gradient-to-position);
 }
 .px-16 {
   padding-left: 4rem;
@@ -577,13 +587,6 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-#root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
 .chatbox,
 .scoreboard {
     text-align: center;
@@ -593,7 +596,7 @@ video {
 }
 
 .game-board {
-    width: 550px;
+
     outline: 35px solid #C8C8C8;
     border: 3px solid #FFFFFE;
     border-top: 3px solid black;
@@ -656,7 +659,13 @@ video {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-
+    #gameView {
+  margin: 0px;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
     .hover\:bg-green-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));

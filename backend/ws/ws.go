@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -56,8 +57,6 @@ func HandleConnection(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 
-	// Example of adding to lobby
-	// This needs actual implementation
 	addToLobby(newClient)
 
 	for {
@@ -76,6 +75,7 @@ func handleMessages(msg *wsMessage, client *Client) {
 	switch msg.Type {
 	case "setUsername":
 		name, ok := msg.Payload.(string)
+		fmt.Println(name, ok, msg.Payload)
 		if !ok {
 			client.Conn.WriteJSON(wsMessage{Type: "invalidUsername", Payload: "Invalid username"})
 			return
@@ -114,9 +114,11 @@ func addToLobby(client *Client) {
 		}
 		lobbies[lobbyID] = lobby
 	}
-
 	client.LobbyID = lobby.ID
 	lobby.Players[client.ID] = client
+	if len(lobby.Players) == 2 { // Assuming countdown starts when the first player joins
+		go lobbyCountdown(lobby)
+	}
 	broadcastLobbyStatus(lobby)
 
 	if len(lobby.Players) == 4 {
@@ -124,27 +126,19 @@ func addToLobby(client *Client) {
 	}
 }
 
-func lobbyTimeout(lobby *Lobby) {
-	<-lobby.Timer.C
-	if len(lobby.Players) > 0 && len(lobby.Players) < 4 {
-		startGame(lobby) // Start the game even if not full
-	}
-}
-
 func lobbyCountdown(lobby *Lobby) {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
-	for {
-		select {
-		case <-ticker.C:
-			lobby.TimeLeft--
-			broadcastTimeLeft(lobby)
-			if lobby.TimeLeft <= 0 {
-				startGame(lobby)
-				return
-			}
-		case <-lobby.Timer.C: // If the timer finishes separately
+	for range ticker.C {
+		if len(lobby.Players) < 2 {
+			ticker.Stop()
+		}
+		lobby.TimeLeft--
+		broadcastTimeLeft(lobby)
+
+		if lobby.TimeLeft <= 0 {
+			ticker.Stop()
 			startGame(lobby)
 			return
 		}

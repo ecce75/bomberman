@@ -1,4 +1,5 @@
-// Define a function to create and position player elements on the map
+import { createChild, createStructure } from '../framework.js';
+
 export function createPlayersAndPlace() {
     // Define player indices
     const players = [
@@ -21,24 +22,7 @@ export function createPlayersAndPlace() {
     // Create, position, and place player elements
     players.forEach(playerData => {
         const { index } = playerData;
-        const player = document.createElement('div');
-        player.className = 'player';
-
-        // Set player sprite based on index
-        switch (index) {
-            case 0:
-                player.style.backgroundPosition = '0px 0px'; // Player 1, first sprite
-                break;
-            case 1:
-                player.style.backgroundPosition = '-52px 0px'; // Player 2, first sprite
-                break;
-            case 2:
-                player.style.backgroundPosition = '-104px 0px'; // Player 3, first sprite
-                break;
-            case 3:
-                player.style.backgroundPosition = '-156px 0px'; // Player 4, first sprite
-                break;
-        }
+        const player = createPlayerElement(index);
 
         // Determine the corner to place the player
         const startPosition = corners[index];
@@ -46,4 +30,14 @@ export function createPlayersAndPlace() {
         const startCell = board.children[startCellIndex];
         createChild(startCell, player);
     });
+}
+
+function createPlayerElement(index) {
+    const player = createStructure({
+        tag: 'div',
+        attr: ['class', 'player'],
+        style: ['backgroundPosition', `${-52 * index}px 0px`] // Assuming 52px width per sprite
+    });
+
+    return player;
 }

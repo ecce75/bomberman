@@ -37,7 +37,6 @@ function removeChild(parent, child) {
     parent.removeChild(child);
 }
 function createStructure(structure) {
-    console.log(structure.attr)
     let parent = document.createElement(structure.tag);
     if ('attr' in structure) {
         setAttributes(parent, structure.attr);
