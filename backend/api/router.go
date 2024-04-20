@@ -11,12 +11,10 @@ func Router(mux *mux.Router) {
 	mux.PathPrefix("/").Handler(fileHandler())
 	// mux.PathPrefix("/frontend/src").Handler(serveStaticFiles())
 
-	mux.HandleFunc("/ws", ws.HandleConnections)
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		ws.HandleConnection(w, r)
+	})
 }
-
-// func serveStaticFiles() http.Handler {
-//
-// }
 
 func fileHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
