@@ -1,3 +1,4 @@
+
 function movePlayerX(player, direction) {
     // Move player horizontally based on direction
     if (direction === 'left') {
@@ -14,32 +15,6 @@ function movePlayerY(player, direction) {
     } else if (direction === 'down') {
         player.y += 1;
     }
-}
-
-function handlePlayerMovement(event, player,) {
-
-
-    // Logic to move player based on key press (left, right, up, down)
-    switch (event.keyCode) {
-        case 37: // Arrow Left
-            movePlayerX(player, 'left');
-            break;
-        case 38: // Arrow Up
-            movePlayerY(player, 'up');
-            break;
-        case 39: // Arrow Right
-            movePlayerX(player, 'right');
-            break;
-        case 40: // Arrow Down
-            movePlayerY(player, 'down');
-            break;
-    }
-}
-
-function checkCollisions() {
-    // Check if players collide with obstacles or boundaries
-    // Check if players collect power-ups
-    // Handle interactions
 }
 
 export function updatePlayerPosition(playerID, newPosition) {

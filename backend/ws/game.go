@@ -19,6 +19,8 @@ func startGame(lobby *Lobby) {
 	delete(lobbies, lobby.ID) // Remove lobby once game starts
 }
 
+
+
 func handleGameInput(client *Client, input wsMessage) {
 	game, ok := games[client.GameID]
 	if !ok {
@@ -88,3 +90,4 @@ func isValidPosition(game *Game, pos Coordinates) bool {
 	// Example checks, these will depend on your game's specific logic and boundaries
 	return pos.X >= 0 && pos.X < game.Map.mapWidth && pos.Y >= 0 && pos.Y < game.Map.mapHeight && game.Map.gameMap[pos.Y][pos.X] != 1 && game.Map.gameMap[pos.Y][pos.X] != 2
 }
+

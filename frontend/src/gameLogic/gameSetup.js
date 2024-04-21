@@ -1,4 +1,5 @@
-import {createChild, createStructure} from "/framework.js";
+import { createChild, createStructure } from "/framework.js";
+import { createPlayersDisplay, createTimerDisplay } from "./util.js";
 
 // Map field codes: {
 //     0: "free",
@@ -81,23 +82,20 @@ export function createGameBoard(game) {
     return board;
 }
 
-
 export function createScoreboard() {
-    const score = createStructure({
+    const scoreboard = createStructure({
         tag: 'div',
         attr: ['class', 'scoreboard'],
         children: [
-            {tag: 'h3', children: 'Timer'},
-            {tag: 'p', attr: 'minutes', children: '00'},
-            {tag: 'p', attr: 'colon', children: ':'},
-            {tag: 'p', attr: 'seconds', children: '00'},
+
+            createTimerDisplay(),
+            createPlayersDisplay()
         ]
     });
-    return score;
+    return scoreboard;
 }
 
-
-function addPlayer(player) {
+export function addPlayer(player) {
     if (player.Position === undefined) {
         return;
     }
@@ -106,9 +104,9 @@ function addPlayer(player) {
         username: player.Username,
         lives: player.Lives,
         powerups: {
-            bomb: 1,
-            flames: 1,
-            speed: 1,
+            bomb: 2,
+            flamerange: 2,
+            speed: 2,
         },
         position: {
             x: player.Position.X,
@@ -124,3 +122,6 @@ function placePlayer(board, player, startPosition) {
     const startCell = board.children[startPosition];
     createChild(startCell, player);
 }
+
+// default 1
+// 

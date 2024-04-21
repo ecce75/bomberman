@@ -616,24 +616,28 @@ video {
   border: 3px solid #FFFFFE;
   border-bottom: 3px solid black;
 }
+
 #player1 {
   background-image: url('public/images/player1.png');
   background-size: cover;
   width: 50px;
   height: 50px;
 }
+  
 #player2 {
   background-image: url('public/images/player2.png');
   background-size: cover;
   width: 50px;
   height: 50px;
 }
+  
 #player3 {
   background-image: url('public/images/player3.png');
   background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 #player4 {
   background-image: url('public/images/player4.png');
   background-size: cover;
@@ -748,6 +752,7 @@ video {
   }
 }
 
+
 .message .player-left {
   color: rgb(240, 91, 91);
 }
@@ -795,6 +800,71 @@ video {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+}
+
+  
+  
+.timer-display {
+  width: 100%;
+  /* or adjust according to layout needs */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  /* Adjust size as necessary */
+}
+
+.timer-flex-container {
+  display: flex;
+  /* Aligns children (minutes, colon, seconds) inline */
+}
+
+.time-element {
+  margin: 0 5px;
+  /* Adds spacing around the time elements */
+}
+
+.players-display {
+  display: inline;
+}
+
+.player-info {
+  display: flex;
+  gap: 10px;
+  border-top-color: #3C7B01;
+  border-width: 2px;
+}
+
+.player-avatar {
+  width: 40px; /* Fixed width, adjust as needed */
+  height: 40px; /* Fixed height, adjust as needed */
+  border-radius: 50%; /* Circular avatar */
+  border: 2px solid #ccc; /* Gray border around the avatar */
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  font-weight: 500;
+  color: rgb(2, 126, 12);
+}
+
+.player-lives {
+  display: flex;
+  align-items: center;
+  gap: 3px; /* Space between the icon and the number of lives */
+  font-weight: 700;
+  color: crimson;
+}
+
+.player-lives img {
+  width: 30px;
+  height: 30px; /* Size of the lives icon */
+}
+
+.powerups-list img {
+  width: 20px;
+  height: 20px;
 }
 
 .hover\:bg-green-600:hover {

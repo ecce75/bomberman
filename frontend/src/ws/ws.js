@@ -1,16 +1,15 @@
+
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
 import {updatePlayerPosition} from "../gameLogic/movement.js";
 import { removePlayerFromGame } from "../gameLogic/player.js";
 import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/chat.js";
 
-
-
 function setupWebSocket() {
     const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         const msg = JSON.parse(event.data);
-        switch(msg.type) {
+        switch (msg.type) {
             case 'updateCounter':
                 document.getElementById('playerCount').textContent = msg.payload.toString();
                 break;
@@ -26,8 +25,8 @@ function setupWebSocket() {
                 updatePlayerPosition(msg.payload.playerID, msg.payload.newPosition);
                 break;
             case "invalidUsername":
-                // alert("Username already taken")
-                // window.reload()
+            // alert("Username already taken")
+            // window.reload()
             // Handle other messages
             case "chatMessage":
                 // handle incoming chat messages
@@ -51,7 +50,7 @@ export function submitUsername() {
         return;
     }
     const ws = setupWebSocket();
-    ws.onopen = function() {
+    ws.onopen = function () {
         ws.send(JSON.stringify({ type: 'setUsername', payload: username }));
         sessionStorage.setItem("username", username)
         lobbyView();

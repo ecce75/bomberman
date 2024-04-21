@@ -1,3 +1,4 @@
+
 import {createGameBoard, createScoreboard} from "../gameLogic/gameSetup.js"
 import {createStructure, addEvent} from "../framework.js";
 import {players} from "../gameLogic/gameSetup.js";
@@ -18,6 +19,7 @@ export function gameView(game, ws) {
     const gameBoard = createGameBoard(game);
     const chatbox = createChatbox();
     const score = createScoreboard();
+    //const player = createPlayersAndPlace();
 
     const username = sessionStorage.getItem('username');
     const mainPlayer = players.find(player => player.username === username);
@@ -42,6 +44,7 @@ export function gameView(game, ws) {
     gameView.appendChild(chatbox);
     gameView.appendChild(gameBoard);
     gameView.appendChild(score);
+    //gameView.appendChild(player);
 
 }
 
