@@ -1,3 +1,5 @@
+import { players } from './gameSetup.js';
+import { updateLivesDisplay } from './gameInfo.js';
 
 export function activateBomb(pos) {
     const bombElement = document.querySelector(`.cell[style*="grid-area: ${pos.Y + 1} / ${pos.X + 1}"]`);
@@ -53,5 +55,14 @@ export function removePlayerFromGame(playerID) {
     if (oldPlayerElement) {
         // Assuming there should only be one element with this class at a time
         oldPlayerElement.removeAttribute('id');
+    }
+}
+
+export function handlePlayerLoseLife(payload) {
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].id === payload.playerID) {
+            players[i].lives = payload.lives;
+            updateLivesDisplay(players[i].id, players[i].lives);
+        }
     }
 }

@@ -1,5 +1,5 @@
 import { createChild, createStructure } from "/framework.js";
-import { createPlayersDisplay, createTimerDisplay } from "./util.js";
+import { createPlayersDisplay, createTimerDisplay } from "./gameInfo.js";
 
 // Map field codes: {
 //     0: "free",
@@ -23,9 +23,10 @@ export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object
     const gamePlayers = game.players; // Get the players from the game object
     console.log(gamePlayers);
-
+    
     for (const player of gamePlayers) {
         addPlayer(player); // Add the player to the players array
+
     }
     const board = createStructure({
         tag: 'div',

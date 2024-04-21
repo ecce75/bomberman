@@ -1,5 +1,6 @@
 
 export function updatePlayerPosition(playerID, newPosition) {
+    console.log('updating player position', newPosition)
     const  oldPlayerElement = document.getElementById('player' + playerID)
 
     if (oldPlayerElement) {

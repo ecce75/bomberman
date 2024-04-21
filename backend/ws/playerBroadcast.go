@@ -3,7 +3,7 @@ package ws
 // BroadcastPlayerDamage is a placeholder for broadcasting player damage
 func (gm *Game) BroadcastPlayerDamage(damagedPlayer *GamePlayer) {
 	for _, player := range gm.Players {
-		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
+		player.Conn.WriteJSON(wsMessage{Type: "playerLoseLife", Payload: map[string]interface{}{
 			"playerID": damagedPlayer.ID,
 			"lives":    damagedPlayer.Lives,
 		}})

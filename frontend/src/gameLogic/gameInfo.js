@@ -81,7 +81,7 @@ function createPlayerDisplay(player) {
                         attr: ['class', 'player-lives'],
                         children: [
                             { tag: 'img', attr: ['src', `../public/images/pixelheart.png`, 'alt', 'Lives Icon'] },
-                            { tag: 'span', children: `x${player.lives}` }
+                            { tag: 'span',attr: ['id', 'lives'+player.id], children: `x${player.lives}` }
                         ]
                     })
                 ]
@@ -89,6 +89,14 @@ function createPlayerDisplay(player) {
             createPowerupsDisplay(player.powerups)
         ]
     });
+}
+
+export function updateLivesDisplay(playerID, lives) {
+    const livesDisplay = document.getElementById('lives' + playerID);
+    if (livesDisplay) {
+        livesDisplay.textContent = `x${lives}`;
+    }
+
 }
 
 export function createPowerupsDisplay(powerups) {

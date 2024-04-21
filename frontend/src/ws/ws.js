@@ -1,8 +1,8 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
 import {updatePlayerPosition} from "../gameLogic/movement.js";
-import { removePlayerFromGame } from "../gameLogic/player.js";
-import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/chat.js";
+import { removePlayerFromGame, handlePlayerLoseLife } from "../gameLogic/player.js";
+import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/gameChat.js";
 
 import {activateBomb, activateFlames} from "../gameLogic/player.js";
 
@@ -48,6 +48,10 @@ function setupWebSocket() {
                 removePlayerFromGame(msg.payload.playerID);
                 // alert that player has left
                 broadcastPlayerDisconnect(msg.payload.name);
+                break;
+            case "playerLoseLife":
+                // handle player losing life
+                handlePlayerLoseLife(msg.payload);
                 break;
             case "gameOver":
                 // handle game over
