@@ -3,6 +3,9 @@ package ws
 import (
 	"fmt"
 	"log"
+	"math/rand"
+	"strconv"
+	"time"
 )
 
 func startGame(lobby *Lobby) {
@@ -58,7 +61,7 @@ func (gm *Game) processPlayerMovement(clientID string, direction string) Coordin
 	if !gm.isValidPosition(newPosition) {
 		return player.Player.Position // Return the old position if new position is invalid
 	}
-	if gm.Map.gameMap[newPosition.Y][newPosition.X] == 7 {
+	if gm.Map.gameMap[newPosition.Y][newPosition.X] == 8 {
 		player.Player.LoseLife(gm) // Return the old position if new position is invalid
 	}
 
@@ -80,62 +83,52 @@ func (gm *Game) isValidFlamePosition(pos Coordinates) bool {
 }
 
 func (gm *Game) activateFlames(position Coordinates, flameRange int) {
-	// Activate flames at the given position for n steps
-	gm.Map.gameMap[position.Y][position.X] = 3 // Assuming 3 represents an active flame
-	var flames []Coordinates
-	for i := 1; i <= flameRange; i++ {
-		// Check if the flame can propagate in each direction
-		if gm.isValidFlamePosition(Coordinates{X: position.X, Y: position.Y}) {
-			gm.Map.gameMap[position.Y][position.X] = 8
-			flames = append(flames, Coordinates{X: position.X, Y: position.Y})
-		}
-		if gm.isValidFlamePosition(Coordinates{X: position.X + i, Y: position.Y}) {
-			gm.Map.gameMap[position.Y][position.X+i] = 8
-			flames = append(flames, Coordinates{X: position.X + i, Y: position.Y})
-		}
-		if gm.isValidFlamePosition(Coordinates{X: position.X - i, Y: position.Y}) {
-			gm.Map.gameMap[position.Y][position.X-i] = 8
-			flames = append(flames, Coordinates{X: position.X - i, Y: position.Y})
-		}
-		if gm.isValidFlamePosition(Coordinates{X: position.X, Y: position.Y + i}) {
-			gm.Map.gameMap[position.Y+i][position.X] = 8
-			flames = append(flames, Coordinates{X: position.X, Y: position.Y + i})
-		}
-		if gm.isValidFlamePosition(Coordinates{X: position.X, Y: position.Y - i}) {
-			gm.Map.gameMap[position.Y-i][position.X] = 8
-			flames = append(flames, Coordinates{X: position.X, Y: position.Y - i})
-		}
-	}
-	for _, flame := range flames {
-		if gm.Map.gameMap[flame.Y][flame.X] == 3 {
-			for _, player := range gm.Players {
-				if player.Player.ID == "1" {
-					player.Player.LoseLife(gm)
-				}
-			}
-		}
-		if gm.Map.gameMap[flame.Y][flame.X] == 4 {
-			for _, player := range gm.Players {
-				if player.Player.ID == "2" {
-					player.Player.LoseLife(gm)
-				}
-			}
-		}
-		if gm.Map.gameMap[flame.Y][flame.X] == 5 {
-			for _, player := range gm.Players {
-				if player.Player.ID == "3" {
-					player.Player.LoseLife(gm)
-				}
-			}
-		}
-		if gm.Map.gameMap[flame.Y][flame.X] == 6 {
-			for _, player := range gm.Players {
-				if player.Player.ID == "4" {
-					player.Player.LoseLife(gm)
-				}
-			}
-		}
-	}
-	gm.BroadcastFlames(flames)
+	// Set initial flame at position
+	gm.activateFlameAt(position)
 
+	var flames []Coordinates
+	directions := []Coordinates{{0, 0}, {0, 1}, {1, 0}, {0, -1}, {-1, 0}} // represents right, down, left, up
+
+	for i := 1; i <= flameRange; i++ {
+		for _, dir := range directions {
+			newPos := Coordinates{X: position.X + i*dir.X, Y: position.Y + i*dir.Y}
+			if gm.isValidFlamePosition(newPos) {
+				gm.activateFlameAt(newPos)
+				flames = append(flames, newPos)
+			}
+		}
+	}
+
+	gm.processFlameEffects(flames)
+	gm.BroadcastFlames(flames)
+}
+
+func (gm *Game) activateFlameAt(position Coordinates) {
+	gm.Map.gameMap[position.Y][position.X] = 8 // Assuming 8 represents an active flame
+}
+
+func (gm *Game) processFlameEffects(flames []Coordinates) {
+	for _, flame := range flames {
+		flameCode := gm.Map.gameMap[flame.Y][flame.X]
+		if flameCode >= 3 && flameCode <= 6 { // Assuming these codes correspond to players
+			gm.triggerPlayerDamage(flameCode)
+		}
+	}
+}
+
+func (gm *Game) triggerPlayerDamage(playerCode int) {
+	for _, player := range gm.Players {
+		if player.Player.ID == strconv.Itoa(playerCode-2) { // Assumes ID "1" for code 3, "2" for code 4, etc.
+			player.Player.LoseLife(gm)
+		}
+	}
+}
+
+func (gm *Game) generatePowerUp(position Coordinates) {
+	rand.Seed(time.Now().UnixNano())
+	numbers := []int{9, 10, 10, 11, 11}
+	number := numbers[rand.Intn(len(numbers))]
+	if gm.Map.gameMap[position.Y][position.X] == 2 {
+		gm.Map.gameMap[position.Y][position.X] = number
+	}
 }

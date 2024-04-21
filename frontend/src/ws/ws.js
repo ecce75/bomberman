@@ -22,7 +22,10 @@ function setupWebSocket() {
                 setupChat(ws);
                 break;
             case 'playerMovement':
+                console.log(msg.payload)
+                if ( msg.payload.newPosition != undefined) {
                 updatePlayerPosition(msg.payload.playerID, msg.payload.newPosition);
+                }
                 break;
             case 'bomb':
                 console.log(msg.payload)
