@@ -58,6 +58,9 @@ func (gm *Game) processPlayerMovement(clientID string, direction string) Coordin
 	if !gm.isValidPosition(newPosition) {
 		return player.Player.Position // Return the old position if new position is invalid
 	}
+	if gm.Map.gameMap[newPosition.Y][newPosition.X] == 7 {
+		player.Player.LoseLife(gm) // Return the old position if new position is invalid
+	}
 
 	// Update player's position in the game structure
 	gm.Players[clientID].Player.Position = newPosition
@@ -105,20 +108,32 @@ func (gm *Game) activateFlames(position Coordinates, flameRange int) {
 	}
 	for _, flame := range flames {
 		if gm.Map.gameMap[flame.Y][flame.X] == 3 {
-
+			for _, player := range gm.Players {
+				if player.Player.ID == "1" {
+					player.Player.LoseLife(gm)
+				}
+			}
 		}
 		if gm.Map.gameMap[flame.Y][flame.X] == 4 {
-
+			for _, player := range gm.Players {
+				if player.Player.ID == "2" {
+					player.Player.LoseLife(gm)
+				}
+			}
 		}
 		if gm.Map.gameMap[flame.Y][flame.X] == 5 {
 			for _, player := range gm.Players {
 				if player.Player.ID == "3" {
-					player.Player.LoseLife(gm, 3)
+					player.Player.LoseLife(gm)
 				}
 			}
 		}
 		if gm.Map.gameMap[flame.Y][flame.X] == 6 {
-
+			for _, player := range gm.Players {
+				if player.Player.ID == "4" {
+					player.Player.LoseLife(gm)
+				}
+			}
 		}
 	}
 	gm.BroadcastFlames(flames)
