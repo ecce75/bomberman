@@ -1,25 +1,39 @@
 package ws
 
 // BroadcastPlayerDamage is a placeholder for broadcasting player damage
-func BroadcastPlayerDamage(gameID string, playerIndex int, player *GamePlayer) {
-	// Actual implementation needed here
+func (gm *Game) BroadcastPlayerDamage(playerIndex int, damagedPlayer *GamePlayer) {
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
+			"playerIndex": playerIndex,
+			"lives":       damagedPlayer.Lives,
+		}})
+	}
 }
 
 // CheckGameOver is a placeholder to check if the game is over
-func CheckGameOver(gameID string) {
-	// Actual implementation needed here
+func (gm *Game) CheckGameOver() {
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
+			"gameOver": true,
+		}})
+	}
 }
 
 // BroadcastImmunityEnd is a placeholder for broadcasting end of immunity
-func BroadcastImmunityEnd(gameID string, playerIndex int) {
-	// Actual implementation needed here
-}
-
-func BroadcastPlayerMovement(gameID string, playerIndex int, direction string) {
-	for _, player := range games[gameID].Players {
+func (gm *Game) BroadcastImmunityEnd(playerIndex int) {
+	for _, player := range gm.Players {
 		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
 			"playerIndex": playerIndex,
-			"coordinates": direction,
+			"immunityEnd": true,
+		}})
+	}
+}
+
+func (gm *Game) BroadcastPlayerMovement(playerIndex int, coordinates Coordinates) {
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
+			"playerIndex": playerIndex,
+			"coordinates": coordinates,
 		}})
 	}
 }

@@ -1,5 +1,7 @@
 import {createChild, createStructure} from "/framework.js";
 
+export let players = [];
+
 export function createChatbox() {
     return createStructure({
         tag: 'div',
@@ -26,23 +28,14 @@ export function createChatbox() {
     });
 }
 
-// Documentation for map field codes: {
-//     0: "free",
-//     1: "indestructible",
-//     2: "destructible",
-//     3: "player1",
-//     4: "player2",
-//     5: "player3",
-//     6: "player4",
-//     7: "bomb",
-//     8: "booked" // for development purposes
-//     9: "powerup: speed"
-//     10: "powerup: explosion length"
-//     11: "powerup: bombCount"
-//     9: "flame"
-// }
 
-export function createGameBoard(map) {
+export function createGameBoard(game) {
+    const map = game.map; // Get the map from the game object
+    const gamePlayers = game.players; // Get the players from the game object
+    console.log(gamePlayers);
+    for (const player of gamePlayers) {
+        addPlayer(player); // Add each player to the players array
+    }
     const board = createStructure({
         tag: 'div',
         attr: ['class', 'game-board'],
@@ -63,15 +56,19 @@ export function createGameBoard(map) {
             }
             if (map[i][j] === 3) {
                 cellClass += ' player1'; // Add player1 at the first cell
+                addPlayer(i, j, 1); // Add player1 to the players array
             }
             if (map[i][j] === 4) {
                 cellClass += ' player2'; // Add player2 at the second cell
+                addPlayer(i, j, 2); // Add player1 to the players array
             }
             if (map[i][j] === 5) {
                 cellClass += ' player3'; // Add player3 at the third cell
+                addPlayer(i, j, 3); // Add player1 to the players array
             }
             if (map[i][j] === 6) {
                 cellClass += ' player4'; // Add player4 at the fourth cell
+                addPlayer(i, j, 1); // Add player1 to the players array
             }
             
             const cell = createStructure({
@@ -90,6 +87,7 @@ export function createGameBoard(map) {
             }
         }
     }
+    console.log(players);
     return board;
 }
 
@@ -109,15 +107,31 @@ export function createScoreboard() {
 }
 
 
-/*
-function createPlayer() {
-    return createStructure({
-        tag: 'div',
-        attr: ['class', 'player'],
+
+function addPlayer(player) {
+    if (player.Position === undefined) {
+        return;
+    }
+    players.push({
+        id: player.ID,
+        username: player.Username,
+        lives: player.Lives,
+        powerups: {
+            bomb: 1,
+            flames: 1,
+            speed: 1,
+        },
+        position: {
+            x: player.Position.X,
+            y: player.Position.Y,
+        },
+        immunityTimer: null,
+        activeBombsPlaced: 0,
     });
 }
+
 
 function placePlayer(board, player, startPosition) {
     const startCell = board.children[startPosition];
     createChild(startCell, player);
-}*/
+}

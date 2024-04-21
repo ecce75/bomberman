@@ -10,7 +10,7 @@ func NewGamePlayer(id string, username string) *GamePlayer {
 		ID:                id,
 		Username:          username,
 		Lives:             3,
-		Powerups:          Powerups{MaxBombCount: 1, ExplosionRange: 1, Speed: 1},
+		Powerups:          Powerups{Bomb: 1, Flames: 1, Speed: 1},
 		Position:          Coordinates{X: 0, Y: 0},
 		ActiveBombsPlaced: 0,
 	}
@@ -18,7 +18,7 @@ func NewGamePlayer(id string, username string) *GamePlayer {
 
 // CanPlaceBomb checks if a player can place another bomb
 func (p *GamePlayer) CanPlaceBomb() bool {
-	return p.Powerups.MaxBombCount > p.ActiveBombsPlaced
+	return p.Powerups.Bomb > p.ActiveBombsPlaced
 }
 
 // IncreaseActiveBombs increases the count of active bombs placed by the player
@@ -42,7 +42,7 @@ func (p *GamePlayer) StartImmunityTimer(game *Game, playerIndex int) {
 			p.ImmunityTimer.Stop()
 			p.ImmunityTimer = nil
 			// Trigger event for immunity end
-			BroadcastImmunityEnd(game.ID, playerIndex)
+			game.BroadcastImmunityEnd(playerIndex)
 		})
 	}
 }
@@ -53,9 +53,9 @@ func (p *GamePlayer) LoseLife(game *Game, playerIndex int) {
 		p.Lives--
 		if p.Lives == 0 {
 			// Check if game is over
-			CheckGameOver(game.ID)
+			game.CheckGameOver()
 		}
-		BroadcastPlayerDamage(game.ID, playerIndex, p)
+		game.BroadcastPlayerDamage(playerIndex, p)
 		p.StartImmunityTimer(game, playerIndex)
 	}
 }

@@ -1,25 +1,20 @@
 package ws
 
 import (
-	"fmt"
 	"log"
 )
 
 func startGame(lobby *Lobby) {
+	gameMap := NewGameMap(lobby.Players)
 	newGame := &Game{
 		ID:      lobby.ID,
 		Players: lobby.Players,
 		Timer:   nil, // No timer for now
+		Map:     gameMap,
 	}
 	games[lobby.ID] = newGame
-	gameMap := NewGameMap(lobby.Players)
-	fmt.Println(gameMap.gameMap)
-	for _, client := range newGame.Players {
-		client.Conn.WriteJSON(wsMessage{Type: "gameStart", Payload: map[string]interface{}{
-			"gameID":  lobby.ID,
-			"gameMap": gameMap.gameMap,
-		}})
-	}
+
+	newGame.BroadcastStartGame()
 	delete(lobbies, lobby.ID) // Remove lobby once game starts
 }
 

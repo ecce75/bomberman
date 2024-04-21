@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+var clients = make(map[string]*Client)
+var lobbies = make(map[string]*Lobby)
+var games = make(map[string]*Game)
+
 // Define wsMessage struct as per your application's requirements
 type wsMessage struct {
 	Type    string      `json:"type"`
@@ -23,6 +27,7 @@ type Game struct {
 	ID      string
 	Players map[string]*Client
 	Timer   *time.Timer
+	Map     *gameMap
 }
 
 type Lobby struct {
@@ -35,7 +40,6 @@ type Lobby struct {
 type GamePlayer struct {
 	ID                string
 	Username          string
-	PlayerNumber      int
 	Lives             int
 	Powerups          Powerups
 	Position          Coordinates
@@ -45,9 +49,9 @@ type GamePlayer struct {
 
 // Powerups holds the power-up status of a player
 type Powerups struct {
-	MaxBombCount   int
-	ExplosionRange int
-	Speed          int
+	Bomb   int
+	Flames int
+	Speed  int
 }
 
 // gameMap represents the structure of the game map

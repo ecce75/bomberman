@@ -1,7 +1,6 @@
 package ws
 
 import (
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"log"
@@ -12,10 +11,6 @@ var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
-
-var clients = make(map[string]*Client)
-var lobbies = make(map[string]*Lobby)
-var games = make(map[string]*Game)
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
@@ -53,7 +48,6 @@ func handleMessages(msg *wsMessage, client *Client) {
 	switch msg.Type {
 	case "setUsername":
 		name, ok := msg.Payload.(string)
-		fmt.Println(name, ok, msg.Payload)
 		if !ok {
 			client.Conn.WriteJSON(wsMessage{Type: "invalidUsername", Payload: "Invalid username"})
 			return

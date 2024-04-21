@@ -2,6 +2,7 @@ package ws
 
 import (
 	"math/rand"
+	"strconv"
 )
 
 // Documentation for map field codes: {
@@ -19,20 +20,6 @@ import (
 //     11: "powerup: bombCount"
 //     9: "flame"
 // }
-
-func (p GamePlayer) SetPosition(x int, y int) {
-	p.Position.X = x
-	p.Position.Y = y
-}
-
-func initiatePlayers(players map[string]*Client) map[string]*Client {
-	for _, player := range players {
-
-		newPlayer := NewGamePlayer(player.ID, player.Name)
-		player.Player = newPlayer
-	}
-	return players
-}
 
 // NewGameMap initializes a new game map with default settings
 func NewGameMap(players map[string]*Client) *gameMap {
@@ -56,7 +43,7 @@ func NewGameMap(players map[string]*Client) *gameMap {
 
 	gm.initMap()
 	// gm.bookCorners()
-	gm.placeDestructibleBlocks(50)
+	gm.placeDestructibleBlocks(100)
 	gm.placePlayers(initiatePlayers(players))
 
 	return gm
@@ -76,6 +63,16 @@ func (gm *gameMap) initMap() {
 			}
 		}
 	}
+}
+
+func initiatePlayers(players map[string]*Client) map[string]*Client {
+	counter := 1
+	for _, player := range players {
+		newPlayer := NewGamePlayer(strconv.Itoa(counter), player.Name)
+		player.Player = newPlayer
+		counter++
+	}
+	return players
 }
 
 // isInCorners checks if the given coordinates are in the list of corner coordinates.
@@ -144,4 +141,9 @@ func (gm *gameMap) removeActiveFlames(flameToRemove Coordinates) bool {
 		}
 	}
 	return false
+}
+
+func (p *GamePlayer) SetPosition(x int, y int) {
+	p.Position.X = x
+	p.Position.Y = y
 }
