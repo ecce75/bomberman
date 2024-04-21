@@ -1,31 +1,5 @@
 import {createChild, createStructure} from "/framework.js";
 
-export function createChatbox() {
-    return createStructure({
-        tag: 'div',
-        attr: ['class', 'chatbox'],
-        children: [
-            {
-                tag: 'h3',
-                children: 'Messages'
-            },
-            {
-                tag: 'div',
-                attr: ['id', 'chatMessages']
-            },
-            {
-                tag: 'input',
-                attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Type your message...']
-            },
-            {
-                tag: 'button',
-                attr: ['id', 'sendButton'],
-                children: 'Send'
-            }
-        ]
-    });
-}
-
 // Documentation for map field codes: {
 //     0: "free",
 //     1: "indestructible",

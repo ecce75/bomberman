@@ -19,6 +19,12 @@ function loadState() {
     }
 }
 
+/**
+ * Appends a child element to a parent element.
+ * 
+ * @param {Node} parent - The parent element to append the child to.
+ * @param {Node|string|object} child - The child element to append. It can be a Node, a string representing text content, or an object representing a structure.
+ */
 function createChild(parent, child) {
     if (child instanceof Node) {
         parent.appendChild(child);
@@ -36,6 +42,18 @@ function createChild(parent, child) {
 function removeChild(parent, child) {
     parent.removeChild(child);
 }
+
+
+/**
+ * Creates a DOM structure based on the provided configuration object.
+ *
+ * @param {Object} structure - The configuration object describing the structure.
+ * @param {string} structure.tag - The HTML tag name for the parent element.
+ * @param {Object} [structure.attr] - The attributes to be set on the parent element.
+ * @param {Object} [structure.style] - The styles to be applied to the parent element.
+ * @param {Array|Object} [structure.children] - The child elements to be appended to the parent element.
+ * @returns {HTMLElement} - The created parent element.
+ */
 function createStructure(structure) {
     let parent = document.createElement(structure.tag);
     if ('attr' in structure) {
@@ -57,6 +75,12 @@ function createStructure(structure) {
     return parent;
 }
 
+/**
+ * Sets attributes on an HTML element.
+ *
+ * @param {HTMLElement} element - The HTML element to set attributes on.
+ * @param {Array<string>} attributes - An array of attribute key-value pairs.
+ */
 function setAttributes(element, attributes) {
     for (let i = 0; i < attributes.length; i += 2) {
         let key = attributes[i];
@@ -73,6 +97,12 @@ function setAttributes(element, attributes) {
     }
 }
 
+/**
+ * Sets the styles of an element based on the provided key-value pairs.
+ *
+ * @param {HTMLElement} element - The element to apply the styles to.
+ * @param {Array} styles - An array of key-value pairs representing the styles to be set.
+ */
 function setStyles(element, styles) {
     for (let i = 0; i < styles.length; i += 2) {
         let key = styles[i];
