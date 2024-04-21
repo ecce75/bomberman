@@ -1,11 +1,11 @@
 package ws
 
 // BroadcastPlayerDamage is a placeholder for broadcasting player damage
-func (gm *Game) BroadcastPlayerDamage(playerIndex int, damagedPlayer *GamePlayer) {
+func (gm *Game) BroadcastPlayerDamage(damagedPlayer *GamePlayer) {
 	for _, player := range gm.Players {
 		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
-			"playerIndex": playerIndex,
-			"lives":       damagedPlayer.Lives,
+			"playerID": damagedPlayer.ID,
+			"lives":    damagedPlayer.Lives,
 		}})
 	}
 }
@@ -20,10 +20,10 @@ func (gm *Game) CheckGameOver() {
 }
 
 // BroadcastImmunityEnd is a placeholder for broadcasting end of immunity
-func (gm *Game) BroadcastImmunityEnd(playerIndex int) {
+func (gm *Game) BroadcastImmunityEnd(playerID string) {
 	for _, player := range gm.Players {
 		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
-			"playerIndex": playerIndex,
+			"playerID":    playerID,
 			"immunityEnd": true,
 		}})
 	}

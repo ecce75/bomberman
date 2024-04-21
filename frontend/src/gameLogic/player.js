@@ -37,6 +37,7 @@ export function activateFlames(pos) {
                 console.log('flame left')
             }
 
+
             setTimeout(() => {
                 flameElement.classList.remove('flame-up', 'flame-down', 'flame-right', 'flame-left', 'flame-center');
             }, 1500);

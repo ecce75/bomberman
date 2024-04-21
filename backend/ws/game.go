@@ -103,6 +103,24 @@ func (gm *Game) activateFlames(position Coordinates, flameRange int) {
 			flames = append(flames, Coordinates{X: position.X, Y: position.Y - i})
 		}
 	}
+	for _, flame := range flames {
+		if gm.Map.gameMap[flame.Y][flame.X] == 3 {
+
+		}
+		if gm.Map.gameMap[flame.Y][flame.X] == 4 {
+
+		}
+		if gm.Map.gameMap[flame.Y][flame.X] == 5 {
+			for _, player := range gm.Players {
+				if player.Player.ID == "3" {
+					player.Player.LoseLife(gm, 3)
+				}
+			}
+		}
+		if gm.Map.gameMap[flame.Y][flame.X] == 6 {
+
+		}
+	}
 	gm.BroadcastFlames(flames)
 
 }

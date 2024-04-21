@@ -23,6 +23,7 @@ func handlePlaceBomb(client *Client) {
 		bombPos := client.Player.Position
 		// Decrease the count of active bombs after 3 seconds
 		time.AfterFunc(3*time.Second, func() {
+
 			client.Player.ActiveBombsPlaced--
 			game.activateFlames(bombPos, client.Player.Powerups.Flames)
 		})
@@ -35,27 +36,27 @@ func (p *GamePlayer) CanPlaceBomb() bool {
 }
 
 // StartImmunityTimer starts an immunity timer for the player
-func (p *GamePlayer) StartImmunityTimer(game *Game, playerIndex int) {
+func (p *GamePlayer) StartImmunityTimer(game *Game, playerID string) {
 	if p.ImmunityTimer == nil {
 		p.ImmunityTimer = time.AfterFunc(2*time.Second, func() {
 			p.ImmunityTimer.Stop()
 			p.ImmunityTimer = nil
 			// Trigger event for immunity end
-			game.BroadcastImmunityEnd(playerIndex)
+			game.BroadcastImmunityEnd(playerID)
 		})
 	}
 }
 
 // LoseLife processes the player losing a life
-func (p *GamePlayer) LoseLife(game *Game, playerIndex int) {
+func (p *GamePlayer) LoseLife(game *Game) {
 	if p.Lives > 0 && p.ImmunityTimer == nil {
 		p.Lives--
 		if p.Lives == 0 {
 			// Check if game is over
 			game.CheckGameOver()
 		}
-		game.BroadcastPlayerDamage(playerIndex, p)
-		p.StartImmunityTimer(game, playerIndex)
+		game.BroadcastPlayerDamage(p)
+		p.StartImmunityTimer(game, p.ID)
 	}
 }
 
