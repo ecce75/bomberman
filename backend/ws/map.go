@@ -2,7 +2,6 @@ package ws
 
 import (
 	"math/rand"
-	"strconv"
 )
 
 // Documentation for map field codes: {
@@ -21,36 +20,18 @@ import (
 //     9: "flame"
 // }
 
-// gameMap represents the structure of the game map
-type gameMap struct {
-	mapWidth     int
-	mapHeight    int
-	gameMap      [][]int
-	corners      [][2]int
-	activeFlames []Coordinates
-}
-
-// Coordinates define a pair of x, y coordinates
-type Coordinates struct {
-	X int
-	Y int
-}
-
 func (p GamePlayer) SetPosition(x int, y int) {
 	p.Position.X = x
 	p.Position.Y = y
 }
 
-func initiatePlayers(players map[string]*Client) []*GamePlayer {
-	gamePlayers := make([]*GamePlayer, 0)
+func initiatePlayers(players map[string]*Client) map[string]*Client {
 	for _, player := range players {
-		playerIDint, err := strconv.Atoi(player.ID)
-		if err != nil {
-			// handle error appropriately
-		}
-		gamePlayers = append(gamePlayers, NewGamePlayer(playerIDint, player.Name))
+
+		newPlayer := NewGamePlayer(player.ID, player.Name)
+		player.Player = newPlayer
 	}
-	return gamePlayers
+	return players
 }
 
 // NewGameMap initializes a new game map with default settings
@@ -58,16 +39,17 @@ func NewGameMap(players map[string]*Client) *gameMap {
 	gm := &gameMap{
 		mapWidth:  13,
 		mapHeight: 13,
-		gameMap:   make([][]int, 13),
+		gameMap:   make([][]int, 13), // Initializes the rows of the map
 		corners: [][2]int{
-			{1, 1}, {1, 2}, {2, 1},
-			{13, 1}, {12, 1}, {13, 2},
-			{1, 11}, {1, 10}, {2, 11},
-			{13, 11}, {12, 11}, {13, 10},
+			{0, 0}, {0, 1}, {1, 0},
+			{12, 0}, {11, 0}, {12, 1},
+			{0, 12}, {0, 11}, {1, 12},
+			{12, 12}, {12, 11}, {11, 12},
 		},
 		activeFlames: []Coordinates{},
 	}
 
+	// Initializes the columns of the map
 	for i := range gm.gameMap {
 		gm.gameMap[i] = make([]int, gm.mapWidth)
 	}
@@ -84,22 +66,15 @@ func NewGameMap(players map[string]*Client) *gameMap {
 func (gm *gameMap) initMap() {
 	for y := 0; y < gm.mapHeight; y++ {
 		for x := 0; x < gm.mapWidth; x++ {
-			// Set indestructible blocks on the edges
+			// Set open field on the edges
 			if x == 0 || x == gm.mapWidth-1 || y == 0 || y == gm.mapHeight-1 {
-				gm.gameMap[y][x] = 0
+				gm.setFieldID(x, y, 0)
 			} else if x%2 == 1 && y%2 == 1 { // Set indestructible blocks in a grid pattern inside
-				gm.gameMap[y][x] = 1
+				gm.setFieldID(x, y, 1)
 			} else {
-				gm.gameMap[y][x] = 0 // Set the rest as free blocks
+				gm.setFieldID(x, y, 0)
 			}
 		}
-	}
-}
-
-// bookCorners marks the corners of the map as booked
-func (gm *gameMap) bookCorners() {
-	for _, corner := range gm.corners {
-		gm.gameMap[corner[1]][corner[0]] = 8
 	}
 }
 
@@ -120,36 +95,24 @@ func (gm *gameMap) placeDestructibleBlocks(count int) {
 		x := rand.Intn(gm.mapWidth)
 		y := rand.Intn(gm.mapHeight)
 		if gm.gameMap[y][x] != 1 && !gm.isInCorners(x, y) {
-			gm.gameMap[y][x] = 2
+			gm.setFieldID(x, y, 2)
 			placedBlocks++
 		}
 	}
 }
 
-// freeCorners clears the booked corners for use by players
-func (gm *gameMap) freeCorners() {
-	for _, corner := range gm.corners {
-		gm.gameMap[corner[1]][corner[0]] = 0
-	}
-}
-
 // placePlayers sets player positions on the map
-func (gm *gameMap) placePlayers(players []*GamePlayer) {
+func (gm *gameMap) placePlayers(players map[string]*Client) {
 	cornerCoordinates := [][2]int{
 		{0, 0}, {0, 12}, {12, 0}, {12, 12},
 	}
 	player := 3
-	for i, playerObj := range players {
-		x, y := cornerCoordinates[i][0], cornerCoordinates[i][1]
-		gm.gameMap[y][x] = player
-		playerObj.SetPosition(x, y)
+	for _, playerObj := range players {
+		x, y := cornerCoordinates[player-2][0], cornerCoordinates[player-2][1]
+		gm.setFieldID(x, y, player)
+		playerObj.Player.SetPosition(x, y)
 		player++
 	}
-}
-
-// getFieldID returns the field ID at specified coordinates
-func (gm *gameMap) getFieldID(x, y int) int {
-	return gm.gameMap[y][x]
 }
 
 // setFieldID sets a new ID at the specified field coordinates

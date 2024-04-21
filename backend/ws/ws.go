@@ -2,12 +2,10 @@ package ws
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"time"
-
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
+	"log"
+	"net/http"
 )
 
 var upgrader = websocket.Upgrader{
@@ -37,7 +35,7 @@ type Lobby struct {
 
 var clients = make(map[string]*Client)
 var lobbies = make(map[string]*Lobby)
-var games = make(map[string]*GameWs)
+var games = make(map[string]*Game)
 
 func HandleConnection(w http.ResponseWriter, r *http.Request) {
 	ws, err := upgrader.Upgrade(w, r, nil)
@@ -84,7 +82,7 @@ func handleMessages(msg *wsMessage, client *Client) {
 	case "chatMessage":
 		// Handle chat message
 	case "gameInput":
-		// Handle game input
+		handleGameInput(client, *msg)
 	case "restartGame":
 		// Handle restart game
 	case "bombPlaced":
@@ -174,7 +172,7 @@ func broadcastTimeLeft(lobby *Lobby) {
 
 func handleDisconnect(clientID string) {
 	if client, ok := clients[clientID]; ok {
-		lobby := lobbies[client.LobbyID]
+		lobby := lobbies[client.GameID]
 		delete(lobby.Players, clientID)
 		delete(clients, clientID)
 		if len(lobby.Players) == 0 {
@@ -183,10 +181,4 @@ func handleDisconnect(clientID string) {
 			broadcastLobbyStatus(lobby)
 		}
 	}
-}
-
-// Define wsMessage struct as per your application's requirements
-type wsMessage struct {
-	Type    string      `json:"type"`
-	Payload interface{} `json:"payload"`
 }

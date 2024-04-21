@@ -1,5 +1,5 @@
 import {createGameBoard, createChatbox, createScoreboard} from "../gameLogic/gameSetup.js"
-import { createPlayersAndPlace } from "../gameLogic/player.js";
+//import { createPlayersAndPlace } from "../gameLogic/player.js";
 import {createStructure} from "../framework.js";
 
 export function gameView(map) {
@@ -17,7 +17,7 @@ export function gameView(map) {
     const gameBoard = createGameBoard(map);
     const chatbox = createChatbox();
     const score = createScoreboard();
-    const player = createPlayersAndPlace();
+    //const player = createPlayersAndPlace();
 
     // Append game board and chatbox to the root
     root.innerHTML = '';
@@ -25,7 +25,7 @@ export function gameView(map) {
     gameView.appendChild(chatbox);
     gameView.appendChild(gameBoard);
     gameView.appendChild(score);
-    gameView.appendChild(player);
+    //gameView.appendChild(player);
 
 }
 

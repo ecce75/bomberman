@@ -3,7 +3,7 @@ package ws
 import "log"
 
 func handleChatMessage(client *Client, payload interface{}) {
-	lobby, ok := lobbies[client.LobbyID]
+	lobby, ok := lobbies[client.GameID]
 	if !ok {
 		log.Printf("Lobby not found for client %s", client.ID)
 		return

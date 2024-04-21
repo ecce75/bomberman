@@ -1,2 +1,6 @@
 .idea
+<<<<<<< HEAD
 .frontend/node_modules
+=======
+node_modules
+>>>>>>> 2fc5c74f49cdfc58b01bf4b987b0556eb2140df5

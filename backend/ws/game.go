@@ -2,23 +2,21 @@ package ws
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"log"
 )
 
 func startGame(lobby *Lobby) {
-	gameID := uuid.New().String()
-	newGame := &GameWs{
-		ID:      gameID,
+	newGame := &Game{
+		ID:      lobby.ID,
 		Players: lobby.Players,
 		Timer:   nil, // No timer for now
 	}
-	games[gameID] = newGame
+	games[lobby.ID] = newGame
 	gameMap := NewGameMap(lobby.Players)
-	fmt.Println(gameMap)
+	fmt.Println(gameMap.gameMap)
 	for _, client := range newGame.Players {
 		client.Conn.WriteJSON(wsMessage{Type: "gameStart", Payload: map[string]interface{}{
-			"gameID":  gameID,
+			"gameID":  lobby.ID,
 			"gameMap": gameMap.gameMap,
 		}})
 	}
@@ -26,7 +24,7 @@ func startGame(lobby *Lobby) {
 }
 
 func handleGameInput(client *Client, input wsMessage) {
-	game, ok := games[client.LobbyID]
+	game, ok := games[client.GameID]
 	if !ok {
 		log.Println("Game not found for input handling")
 		return
@@ -38,7 +36,7 @@ func handleGameInput(client *Client, input wsMessage) {
 	processPlayerMovement(game, client.ID, direction)
 }
 
-func processPlayerMovement(game *GameWs, clientID string, direction string) {
+func processPlayerMovement(game *Game, clientID string, direction string) {
 	// Retrieve player
 	player, ok := game.Players[clientID]
 	if !ok {

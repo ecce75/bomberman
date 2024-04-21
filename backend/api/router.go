@@ -10,7 +10,6 @@ import (
 func Router(mux *mux.Router) {
 	mux.PathPrefix("/").Handler(fileHandler())
 	// mux.PathPrefix("/frontend/src").Handler(serveStaticFiles())
-
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		ws.HandleConnection(w, r)
 	})
