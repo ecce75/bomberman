@@ -1,12 +1,10 @@
-function gameLoop(timestamp) {
+function gameLoop() {
     updateGameState();  // Update game logic, positions, etc.
     render();           // Draw the current game state to the screen
 
     requestAnimationFrame(gameLoop); // Loop this function
 }
 
-// Start the game loop
-requestAnimationFrame(gameLoop);
 
 
 function updateGameState() {

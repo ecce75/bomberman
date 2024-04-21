@@ -29,65 +29,130 @@ export function createChatbox() {
 }
 
 
+// export function createGameBoard(game) {
+//     const map = game.map; // Get the map from the game object
+//     const gamePlayers = game.players; // Get the players from the game object
+//     console.log(gamePlayers);
+//     for (const player of gamePlayers) {
+//         addPlayer(player); // Add each player to the players array
+//     }
+//     const board = createStructure({
+//         tag: 'div',
+//         attr: ['class', 'game-board'],
+//         children: []
+//     });
+//
+//     let cellCounter = 0; // Counter to track the number of cells
+//
+//
+//     for (let i = 0; i < 13; i++) {
+//         for (let j = 0; j < 13; j++) {
+//             let cellClass = 'cell';
+//             let cellID
+//             if (map[i][j] === 1) {
+//                 cellClass += ' indestructible'; // Add indestructible obstacles at every other row and column
+//             }
+//             if (map[i][j] === 2) {
+//                 cellClass += ' destructible'; // Add destructible obstacles at every other row and column
+//             }
+//             if (map[i][j] === 3) {
+//                 cellID = 'player1'; // Add player1 at the first cell
+//                 addPlayer(i, j, 1); // Add player1 to the players array
+//             }
+//             if (map[i][j] === 4) {
+//                 cellID = 'player2';  // Add player2 at the second cell
+//                 addPlayer(i, j, 2); // Add player1 to the players array
+//             }
+//             if (map[i][j] === 5) {
+//                 cellID = 'player3';  // Add player3 at the third cell
+//                 addPlayer(i, j, 3); // Add player1 to the players array
+//             }
+//             if (map[i][j] === 6) {
+//                 cellID = 'player4';  // Add player4 at the fourth cell
+//                 addPlayer(i, j, 1); // Add player1 to the players array
+//             }
+//
+//             let attrArray = ['class', cellClass];
+//             if (cellID) {
+//                 attrArray.push('id', cellID);
+//             }
+//
+//             const cell = createStructure({
+//                 tag: 'div',
+//                 attr: attrArray,
+//                 style: ['grid-column', j, 'grid-row', i],
+//             });
+//             createChild(board, cell);
+//
+//             cellCounter++; // Increment the cell counter
+//
+//             // Check if it's the 13th cell
+//             if (cellCounter % 13 === 0 && cellCounter !== 13 * 13) {
+//                 const lineBreak = createStructure({tag: 'br'}); // Create <br> element
+//                 createChild(board, lineBreak); // Append <br> element
+//             }
+//         }
+//     }
+//     return board;
+// }
 export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object
     const gamePlayers = game.players; // Get the players from the game object
     console.log(gamePlayers);
-    for (const player of gamePlayers) {
-        addPlayer(player); // Add each player to the players array
-    }
+
     const board = createStructure({
         tag: 'div',
         attr: ['class', 'game-board'],
         children: []
     });
-
     let cellCounter = 0; // Counter to track the number of cells
-
 
     for (let i = 0; i < 13; i++) {
         for (let j = 0; j < 13; j++) {
             let cellClass = 'cell';
-            if (map[i][j] === 1) {
-                cellClass += ' indestructible'; // Add indestructible obstacles at every other row and column
+            let cellID = '';
+
+            switch (map[i][j]) {
+                case 1:
+                    cellClass += ' indestructible';
+                    break;
+                case 2:
+                    cellClass += ' destructible';
+                    break;
+                case 3:
+                    cellID = 'player1';
+                    break;
+                case 4:
+                    cellID = 'player2';
+                    break;
+                case 5:
+                    cellID = 'player3';
+                    break;
+                case 6:
+                    cellID = 'player4';
+                    break;
             }
-            if (map[i][j] === 2) {
-                cellClass += ' destructible'; // Add destructible obstacles at every other row and column
+
+            const cellAttributes = ['class', cellClass];
+            if (cellID) {
+                cellAttributes.push('id', cellID);
             }
-            if (map[i][j] === 3) {
-                cellClass += ' player1'; // Add player1 at the first cell
-                addPlayer(i, j, 1); // Add player1 to the players array
-            }
-            if (map[i][j] === 4) {
-                cellClass += ' player2'; // Add player2 at the second cell
-                addPlayer(i, j, 2); // Add player1 to the players array
-            }
-            if (map[i][j] === 5) {
-                cellClass += ' player3'; // Add player3 at the third cell
-                addPlayer(i, j, 3); // Add player1 to the players array
-            }
-            if (map[i][j] === 6) {
-                cellClass += ' player4'; // Add player4 at the fourth cell
-                addPlayer(i, j, 1); // Add player1 to the players array
-            }
-            
+
             const cell = createStructure({
                 tag: 'div',
-                attr: ['class', cellClass],
-                style: ['grid-column', j + 1, 'grid-row', i + 1],
+                attr: cellAttributes,
+                style: ['grid-area', `${i+1 } / ${j + 1}`], // Using 1-based index for grid-area
             });
             createChild(board, cell);
-
             cellCounter++; // Increment the cell counter
 
             // Check if it's the 13th cell
             if (cellCounter % 13 === 0 && cellCounter !== 13 * 13) {
-                const lineBreak = createStructure({ tag: 'br' }); // Create <br> element
+                const lineBreak = createStructure({tag: 'br'}); // Create <br> element
                 createChild(board, lineBreak); // Append <br> element
             }
         }
     }
-    console.log(players);
     return board;
 }
 
@@ -97,15 +162,14 @@ export function createScoreboard() {
         tag: 'div',
         attr: ['class', 'scoreboard'],
         children: [
-            { tag: 'h3', children: 'Timer' },
-            { tag: 'p', attr:'minutes' ,children: '00'},
-            { tag: 'p', attr:'colon' ,children: ':'},
-            { tag: 'p', attr:'seconds' ,children: '00'},
+            {tag: 'h3', children: 'Timer'},
+            {tag: 'p', attr: 'minutes', children: '00'},
+            {tag: 'p', attr: 'colon', children: ':'},
+            {tag: 'p', attr: 'seconds', children: '00'},
         ]
     });
     return score;
 }
-
 
 
 function addPlayer(player) {

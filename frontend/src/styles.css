@@ -28,25 +28,25 @@
     border: 3px solid #FFFFFE;
     border-bottom: 3px solid black;
 }
-.cell.player1 {
+#player1 {
   background-image: url('public/images/player1.png'); 
   background-size: cover; 
   width: 50px;
   height: 50px;
 }
-.cell.player2 {
+#player2 {
   background-image: url('public/images/player2.png');
   background-size: cover; 
   width: 50px;
   height: 50px;
 }
-.cell.player3 {
+#player3 {
   background-image: url('public/images/player3.png'); 
   background-size: cover; 
   width: 50px;
   height: 50px;
 }
-.cell.player4 {
+#player4 {
   background-image: url('public/images/player4.png'); 
   background-size: cover; 
   width: 50px;

@@ -29,11 +29,11 @@ func (gm *Game) BroadcastImmunityEnd(playerIndex int) {
 	}
 }
 
-func (gm *Game) BroadcastPlayerMovement(playerIndex int, coordinates Coordinates) {
+func (gm *Game) BroadcastPlayerMovement(playerID string, coordinates Coordinates) {
 	for _, player := range gm.Players {
 		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
-			"playerIndex": playerIndex,
-			"coordinates": coordinates,
+			"playerID":    playerID,
+			"newPosition": coordinates,
 		}})
 	}
 }

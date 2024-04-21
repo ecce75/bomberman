@@ -1,5 +1,6 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
+import {updatePlayerPosition} from "../gameLogic/movement.js";
 
 
 
@@ -7,6 +8,7 @@ function setupWebSocket() {
     const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
     ws.onmessage = function(event) {
         const msg = JSON.parse(event.data);
+        console.log(msg)
         switch(msg.type) {
             case 'updateCounter':
                 document.getElementById('playerCount').textContent = msg.payload.toString();
@@ -15,7 +17,12 @@ function setupWebSocket() {
                 document.getElementById('countdown').textContent = msg.payload.toString();
                 break;
             case 'gameStart':
-                gameView(msg.payload);
+                gameView(msg.payload, ws);
+                break;
+            case 'playerMovement':
+
+                updatePlayerPosition(msg.payload.playerID, msg.payload.newPosition);
+                break;
             case "invalidUsername":
                 // alert("Username already taken")
                 // window.reload()

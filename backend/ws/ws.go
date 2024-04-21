@@ -55,7 +55,7 @@ func handleMessages(msg *wsMessage, client *Client) {
 		client.Name = name
 	case "chatMessage":
 		// Handle chat message
-	case "gameInput":
+	case "move":
 		handleGameInput(client, *msg)
 	case "restartGame":
 		// Handle restart game
