@@ -1,6 +1,7 @@
-import {createGameBoard, createChatbox, createScoreboard} from "../gameLogic/gameSetup.js"
+import {createGameBoard, createScoreboard} from "../gameLogic/gameSetup.js"
 import {createStructure, addEvent} from "../framework.js";
 import {players} from "../gameLogic/gameSetup.js";
+import { createChatbox } from "../gameLogic/chat.js";
 
 export function gameView(game, ws) {
     const root = document.getElementById('root'); // Ensure you have a div with id="app-root" in your HTML

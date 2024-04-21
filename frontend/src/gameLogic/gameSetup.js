@@ -1,100 +1,22 @@
 import {createChild, createStructure} from "/framework.js";
 
-export let players = [];
+export const players = [];
 
-export function createChatbox() {
-    return createStructure({
-        tag: 'div',
-        attr: ['class', 'chatbox'],
-        children: [
-            {
-                tag: 'h3',
-                children: 'Messages'
-            },
-            {
-                tag: 'div',
-                attr: ['id', 'chatMessages']
-            },
-            {
-                tag: 'input',
-                attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Type your message...']
-            },
-            {
-                tag: 'button',
-                attr: ['id', 'sendButton'],
-                children: 'Send'
-            }
-        ]
-    });
-}
-
-
-// export function createGameBoard(game) {
-//     const map = game.map; // Get the map from the game object
-//     const gamePlayers = game.players; // Get the players from the game object
-//     console.log(gamePlayers);
-//     for (const player of gamePlayers) {
-//         addPlayer(player); // Add each player to the players array
-//     }
-//     const board = createStructure({
-//         tag: 'div',
-//         attr: ['class', 'game-board'],
-//         children: []
-//     });
-//
-//     let cellCounter = 0; // Counter to track the number of cells
-//
-//
-//     for (let i = 0; i < 13; i++) {
-//         for (let j = 0; j < 13; j++) {
-//             let cellClass = 'cell';
-//             let cellID
-//             if (map[i][j] === 1) {
-//                 cellClass += ' indestructible'; // Add indestructible obstacles at every other row and column
-//             }
-//             if (map[i][j] === 2) {
-//                 cellClass += ' destructible'; // Add destructible obstacles at every other row and column
-//             }
-//             if (map[i][j] === 3) {
-//                 cellID = 'player1'; // Add player1 at the first cell
-//                 addPlayer(i, j, 1); // Add player1 to the players array
-//             }
-//             if (map[i][j] === 4) {
-//                 cellID = 'player2';  // Add player2 at the second cell
-//                 addPlayer(i, j, 2); // Add player1 to the players array
-//             }
-//             if (map[i][j] === 5) {
-//                 cellID = 'player3';  // Add player3 at the third cell
-//                 addPlayer(i, j, 3); // Add player1 to the players array
-//             }
-//             if (map[i][j] === 6) {
-//                 cellID = 'player4';  // Add player4 at the fourth cell
-//                 addPlayer(i, j, 1); // Add player1 to the players array
-//             }
-//
-//             let attrArray = ['class', cellClass];
-//             if (cellID) {
-//                 attrArray.push('id', cellID);
-//             }
-//
-//             const cell = createStructure({
-//                 tag: 'div',
-//                 attr: attrArray,
-//                 style: ['grid-column', j, 'grid-row', i],
-//             });
-//             createChild(board, cell);
-//
-//             cellCounter++; // Increment the cell counter
-//
-//             // Check if it's the 13th cell
-//             if (cellCounter % 13 === 0 && cellCounter !== 13 * 13) {
-//                 const lineBreak = createStructure({tag: 'br'}); // Create <br> element
-//                 createChild(board, lineBreak); // Append <br> element
-//             }
-//         }
-//     }
-//     return board;
+// Map field codes: {
+//     0: "free",
+//     1: "indestructible",
+//     2: "destructible",
+//     3: "player1",
+//     4: "player2",
+//     5: "player3",
+//     6: "player4",
+//     7: "bomb",
+//     9: "powerup: speed"
+//     10: "powerup: explosion length"
+//     11: "powerup: bombCount"
+//     9: "flame"
 // }
+
 export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object
     const gamePlayers = game.players; // Get the players from the game object

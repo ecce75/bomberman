@@ -1,6 +1,7 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
 import {updatePlayerPosition} from "../gameLogic/movement.js";
+import { handleChatMessage, setupChat } from "../gameLogic/chat.js";
 
 
 
@@ -8,7 +9,6 @@ function setupWebSocket() {
     const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
     ws.onmessage = function(event) {
         const msg = JSON.parse(event.data);
-        console.log(msg)
         switch(msg.type) {
             case 'updateCounter':
                 document.getElementById('playerCount').textContent = msg.payload.toString();
@@ -18,6 +18,7 @@ function setupWebSocket() {
                 break;
             case 'gameStart':
                 gameView(msg.payload, ws);
+                setupChat(ws);
                 break;
             case 'playerMovement':
 
@@ -27,9 +28,13 @@ function setupWebSocket() {
                 // alert("Username already taken")
                 // window.reload()
             // Handle other messages
+            case "chatMessage":
+                // handle incoming chat messages
+                handleChatMessage(msg.payload);
+                break;
+
         }
     };
-
     return ws;
 }
 
