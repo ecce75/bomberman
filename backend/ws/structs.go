@@ -33,7 +33,7 @@ type Lobby struct {
 
 // GamePlayer holds data about a game player
 type GamePlayer struct {
-	ID                int
+	ID                string
 	Username          string
 	PlayerNumber      int
 	Lives             int

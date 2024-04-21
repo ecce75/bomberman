@@ -2,7 +2,6 @@ package ws
 
 import (
 	"math/rand"
-	"strconv"
 )
 
 // Documentation for map field codes: {
@@ -26,18 +25,13 @@ func (p GamePlayer) SetPosition(x int, y int) {
 	p.Position.Y = y
 }
 
-func initiatePlayers(players map[string]*Client) []*GamePlayer {
-	gamePlayers := make([]*GamePlayer, 0)
+func initiatePlayers(players map[string]*Client) map[string]*Client {
 	for _, player := range players {
-		playerIDint, err := strconv.Atoi(player.ID)
-		if err != nil {
-			// handle error appropriately
-		}
-		newPlayer := NewGamePlayer(playerIDint, player.Name)
 
-		gamePlayers = append(gamePlayers, newPlayer)
+		newPlayer := NewGamePlayer(player.ID, player.Name)
+		player.Player = newPlayer
 	}
-	return gamePlayers
+	return players
 }
 
 // NewGameMap initializes a new game map with default settings
@@ -45,7 +39,7 @@ func NewGameMap(players map[string]*Client) *gameMap {
 	gm := &gameMap{
 		mapWidth:  13,
 		mapHeight: 13,
-		gameMap:   make([][]int, 13),
+		gameMap:   make([][]int, 13), // Initializes the rows of the map
 		corners: [][2]int{
 			{0, 0}, {0, 1}, {1, 0},
 			{12, 0}, {11, 0}, {12, 1},
@@ -55,6 +49,7 @@ func NewGameMap(players map[string]*Client) *gameMap {
 		activeFlames: []Coordinates{},
 	}
 
+	// Initializes the columns of the map
 	for i := range gm.gameMap {
 		gm.gameMap[i] = make([]int, gm.mapWidth)
 	}
@@ -107,15 +102,15 @@ func (gm *gameMap) placeDestructibleBlocks(count int) {
 }
 
 // placePlayers sets player positions on the map
-func (gm *gameMap) placePlayers(players []*GamePlayer) {
+func (gm *gameMap) placePlayers(players map[string]*Client) {
 	cornerCoordinates := [][2]int{
 		{0, 0}, {0, 12}, {12, 0}, {12, 12},
 	}
 	player := 3
-	for i, playerObj := range players {
-		x, y := cornerCoordinates[i][0], cornerCoordinates[i][1]
+	for _, playerObj := range players {
+		x, y := cornerCoordinates[player-2][0], cornerCoordinates[player-2][1]
 		gm.setFieldID(x, y, player)
-		playerObj.SetPosition(x, y)
+		playerObj.Player.SetPosition(x, y)
 		player++
 	}
 }

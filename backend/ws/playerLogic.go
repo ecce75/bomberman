@@ -5,7 +5,7 @@ import (
 )
 
 // NewGamePlayer creates a new player instance
-func NewGamePlayer(id int, username string) *GamePlayer {
+func NewGamePlayer(id string, username string) *GamePlayer {
 	return &GamePlayer{
 		ID:                id,
 		Username:          username,
