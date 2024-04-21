@@ -8,7 +8,7 @@ import (
 
 func startGame(lobby *Lobby) {
 	gameID := uuid.New().String()
-	newGame := &GameWs{
+	newGame := &Game{
 		ID:      gameID,
 		Players: lobby.Players,
 		Timer:   nil, // No timer for now
@@ -26,7 +26,7 @@ func startGame(lobby *Lobby) {
 }
 
 func handleGameInput(client *Client, input wsMessage) {
-	game, ok := games[client.LobbyID]
+	game, ok := games[client.GameID]
 	if !ok {
 		log.Println("Game not found for input handling")
 		return
@@ -38,7 +38,7 @@ func handleGameInput(client *Client, input wsMessage) {
 	processPlayerMovement(game, client.ID, direction)
 }
 
-func processPlayerMovement(game *GameWs, clientID string, direction string) {
+func processPlayerMovement(game *Game, clientID string, direction string) {
 	// Retrieve player
 	player, ok := game.Players[clientID]
 	if !ok {

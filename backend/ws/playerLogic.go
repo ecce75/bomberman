@@ -4,30 +4,6 @@ import (
 	"time"
 )
 
-type Game struct {
-	ID      int
-	Players []*GamePlayer
-}
-
-// GamePlayer holds data about a game player
-type GamePlayer struct {
-	ID                int
-	Username          string
-	PlayerNumber      int
-	Lives             int
-	Powerups          Powerups
-	Position          Coordinates
-	ImmunityTimer     *time.Timer
-	ActiveBombsPlaced int
-}
-
-// Powerups holds the power-up status of a player
-type Powerups struct {
-	MaxBombCount   int
-	ExplosionRange int
-	Speed          int
-}
-
 // NewGamePlayer creates a new player instance
 func NewGamePlayer(id int, username string) *GamePlayer {
 	return &GamePlayer{
