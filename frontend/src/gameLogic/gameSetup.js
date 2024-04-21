@@ -1,33 +1,5 @@
 import {createChild, createStructure} from "/framework.js";
 
-export let players = [];
-
-export function createChatbox() {
-    return createStructure({
-        tag: 'div',
-        attr: ['class', 'chatbox'],
-        children: [
-            {
-                tag: 'h3',
-                children: 'Messages'
-            },
-            {
-                tag: 'div',
-                attr: ['id', 'chatMessages']
-            },
-            {
-                tag: 'input',
-                attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Type your message...']
-            },
-            {
-                tag: 'button',
-                attr: ['id', 'sendButton'],
-                children: 'Send'
-            }
-        ]
-    });
-}
-
 
 export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object

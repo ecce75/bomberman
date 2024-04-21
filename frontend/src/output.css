@@ -587,63 +587,172 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.chatbox,
 .scoreboard {
-    text-align: center;
-    height: 624px;
-    width: 210px;
-    background-color: #C8C8C8;
+  text-align: center;
+  height: 624px;
+  width: 210px;
+  margin: 40px;
+  background-color: #C8C8C8;
 }
+
 .game-board {
-    outline: 35px solid #C8C8C8;
-    border: 3px solid #FFFFFE;
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
+  outline: 35px solid #C8C8C8;
+  border: 3px solid #FFFFFE;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
 }
+
 .cell {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-color: #3C7B01;
-    box-sizing: border-box;
-    margin-bottom: -6px;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #3C7B01;
+  box-sizing: border-box;
+  margin-bottom: -6px;
 }
+
 .cell.indestructible {
-    background-color: #C8C8C8;
-    border: 3px solid #FFFFFE;
-    border-bottom: 3px solid black;
+  background-color: #C8C8C8;
+  border: 3px solid #FFFFFE;
+  border-bottom: 3px solid black;
 }
+
 .cell.player1 {
-  background-image: url('public/images/player1.png'); 
-  background-size: cover; 
+  background-image: url('public/images/player1.png');
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.player2 {
   background-image: url('public/images/player2.png');
-  background-size: cover; 
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.player3 {
-  background-image: url('public/images/player3.png'); 
-  background-size: cover; 
+  background-image: url('public/images/player3.png');
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.player4 {
-  background-image: url('public/images/player4.png'); 
-  background-size: cover; 
+  background-image: url('public/images/player4.png');
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.destructible {
   background-image: url('public/images/destructible-wall.png');
   background-size: cover;
-
 }
-  
-    .textbox-style {
+
+/* General Chatbox Styles */
+.chatbox {
+  text-align: left;
+  height: 624px;
+  width: 210px;
+  margin: 40px;
+  background-color: #C8C8C8;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Style for the chat message area */
+#chatMessages {
+  overflow-y: auto;
+  /* allows scrolling */
+  padding: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Individual Message Styles */
+.message {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+}
+
+.message .sender {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.message-self {
+  background-color: #f5d375;
+}
+
+.message .message-content {
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.message .time-sent {
+  font-size: 0.75em;
+  text-align: right;
+  color: #888;
+}
+
+/* Input area styles */
+.message-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#messageInput {
+  flex-grow: 1;
+  max-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+#sendButton {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#sendButton:hover {
+  background-color: #4cae4c;
+  /* darker green on hover */
+}
+
+/* Handling responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .chatbox {
+    width: 100%;
+    /* full width on small screens */
+    border-radius: 0;
+    /* no border radius on small screens */
+  }
+}
+
+.textbox-style {
   margin-bottom: 1rem;
   border-radius: 0.25rem;
   border-width: 1px;
@@ -660,18 +769,18 @@ video {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
 }
-  
-    .textbox-style::-moz-placeholder {
+
+.textbox-style::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
 }
-  
-    .textbox-style::placeholder {
+
+.textbox-style::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
 }
-  
-    .textbox-style:focus {
+
+.textbox-style:focus {
   --tw-border-opacity: 1;
   border-color: rgb(254 243 199 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
@@ -679,18 +788,16 @@ video {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-    #gameView {
+
+#gameView {
   margin: 0px;
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
 }
-    .hover\:bg-green-600:hover {
+
+.hover\:bg-green-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 }
-
-
-
-
