@@ -1,7 +1,8 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
 import {updatePlayerPosition} from "../gameLogic/movement.js";
-import { handleChatMessage, setupChat } from "../gameLogic/chat.js";
+import { removePlayerFromGame } from "../gameLogic/player.js";
+import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/chat.js";
 
 
 
@@ -32,7 +33,12 @@ function setupWebSocket() {
                 // handle incoming chat messages
                 handleChatMessage(msg.payload);
                 break;
-
+            case "playerLeft":
+                // handle player leaving
+                removePlayerFromGame(msg.payload.playerID);
+                // alert that player has left
+                broadcastPlayerDisconnect(msg.payload.name);
+                break;
         }
     };
     return ws;

@@ -1,7 +1,5 @@
 import {createChild, createStructure} from "/framework.js";
 
-export const players = [];
-
 // Map field codes: {
 //     0: "free",
 //     1: "indestructible",
@@ -17,10 +15,15 @@ export const players = [];
 //     9: "flame"
 // }
 
+export let players = [];
+
 export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object
     const gamePlayers = game.players; // Get the players from the game object
     console.log(gamePlayers);
+    for (const player of gamePlayers) {
+        addPlayer(player);
+    }
 
     const board = createStructure({
         tag: 'div',

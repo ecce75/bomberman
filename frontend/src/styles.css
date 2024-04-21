@@ -165,6 +165,10 @@
   }
 }
 
+.message .player-left {
+  color: rgb(240, 91, 91);
+}
+
 .textbox-style {
   @apply text-center bg-slate-100 text-slate-700 placeholder-gray-400 border border-amber-200 focus:border-amber-100 rounded py-2 px-4 mb-4 leading-tight focus:outline-none focus:bg-slate-50;
 }

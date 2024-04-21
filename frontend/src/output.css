@@ -748,6 +748,10 @@ video {
   }
 }
 
+.message .player-left {
+  color: rgb(240, 91, 91);
+}
+
 .textbox-style {
   margin-bottom: 1rem;
   border-radius: 0.25rem;

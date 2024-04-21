@@ -94,3 +94,23 @@ export function handleChatMessage(payload) {
 
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
+
+export function broadcastPlayerDisconnect(name) {
+    const chatMessages = document.getElementById('chatMessages');
+
+    const structure = {
+        tag: 'div',
+        attr: ['class', 'message'],
+        children: [
+            {
+                tag: 'p',
+                attr: ['class', 'player-left'],
+                children: `${name} has left the game.`
+            }
+        ]
+    };
+
+    chatMessages.appendChild(createStructure(structure));
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
