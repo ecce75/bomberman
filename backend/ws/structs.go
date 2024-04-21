@@ -24,16 +24,23 @@ type Client struct {
 }
 
 type Game struct {
-	ID      string
-	Players map[string]*Client
-	Timer   *time.Timer
+	ID           string
+	Players      map[string]*Client
+	Timer        *time.Timer
 	Map     *gameMap
+	ChatMessages []ChatMessage
 }
 
 type Lobby struct {
 	ID       string
 	Players  map[string]*Client
 	TimeLeft int
+}
+
+type ChatMessage struct {
+	Username string
+	Message  string
+	TimeSent string
 }
 
 // GamePlayer holds data about a game player
