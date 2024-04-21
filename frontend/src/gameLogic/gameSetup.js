@@ -1,5 +1,20 @@
 import {createChild, createStructure} from "/framework.js";
 
+// Documentation for map field codes: {
+//     0: "free",
+//     1: "indestructible",
+//     2: "destructible",
+//     3: "player1",
+//     4: "player2",
+//     5: "player3",
+//     6: "player4",
+//     7: "bomb",
+//     8: "booked" // for development purposes
+//     9: "powerup: speed"
+//     10: "powerup: explosion length"
+//     11: "powerup: bombCount"
+//     9: "flame"
+// }
 
 export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object

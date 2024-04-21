@@ -1,6 +1,7 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
 import { handleChatMessage, setupChat } from "../gameLogic/chat.js";
+import { handleChatMessage, setupChat } from "../gameLogic/chat.js";
 
 
 
@@ -23,6 +24,11 @@ function setupWebSocket() {
                 // alert("Username already taken")
                 // window.reload()
             // Handle other messages
+            case "chatMessage":
+                // handle incoming chat messages
+                handleChatMessage(msg.payload);
+                break;
+
             case "chatMessage":
                 // handle incoming chat messages
                 handleChatMessage(msg.payload);
