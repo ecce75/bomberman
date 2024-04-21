@@ -12,10 +12,13 @@ func (gm *Game) BroadcastPlayerDamage(damagedPlayer *GamePlayer) {
 
 // CheckGameOver is a placeholder to check if the game is over
 func (gm *Game) CheckGameOver() {
-	for _, player := range gm.Players {
-		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
-			"gameOver": true,
-		}})
+	if len(gm.Players) == 1 {
+		for _, player := range gm.Players {
+			player.Conn.WriteJSON(wsMessage{Type: "gameOver", Payload: map[string]interface{}{
+				"gameOver": true,
+				"winner":   player.Name,
+			}})
+		}
 	}
 }
 

@@ -46,6 +46,11 @@ function setupWebSocket() {
                 // alert that player has left
                 broadcastPlayerDisconnect(msg.payload.name);
                 break;
+            case "gameOver":
+                // handle game over
+                alert("Game Over! Winner: " + msg.payload.winner);
+                window.location.reload();
+                break;  
         }
     };
     return ws;
