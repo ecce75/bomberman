@@ -1,8 +1,15 @@
 import { createStructure } from "/framework.js";
 import { submitUsername } from "/ws/ws.js";
+import {addEvent} from "../framework.js";
 
 
 export default function registerView() {
+
+    addEvent('keydown', document, function(event) {
+        if (event.key === 'Enter') {
+            submitUsername();
+        }
+    })
 
     const root = document.getElementById('root'); // Ensure you have a div with id="root" in your HTML
     const structure = {

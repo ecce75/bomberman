@@ -10,10 +10,11 @@ import { createPlayersDisplay, createTimerDisplay } from "./util.js";
 //     5: "player3",
 //     6: "player4",
 //     7: "bomb",
+//     8: "flame",
 //     9: "powerup: speed"
-//     10: "powerup: explosion length"
+//     10: "powerup: flameRange"
 //     11: "powerup: bombCount"
-//     9: "flame"
+//
 // }
 
 export let players = [];
@@ -26,6 +27,9 @@ export function createGameBoard(game) {
         addPlayer(player);
     }
 
+    for (const player of gamePlayers) {
+        addPlayer(player); // Add the player to the players array
+    }
     const board = createStructure({
         tag: 'div',
         attr: ['class', 'game-board'],
@@ -95,7 +99,8 @@ export function createScoreboard() {
     return scoreboard;
 }
 
-export function addPlayer(player) {
+
+function addPlayer(player) {
     if (player.Position === undefined) {
         return;
     }
@@ -104,9 +109,9 @@ export function addPlayer(player) {
         username: player.Username,
         lives: player.Lives,
         powerups: {
-            bomb: 2,
-            flamerange: 2,
-            speed: 2,
+            bomb: 1,
+            flamerange: 1,
+            speed: 1,
         },
         position: {
             x: player.Position.X,
@@ -122,6 +127,3 @@ function placePlayer(board, player, startPosition) {
     const startCell = board.children[startPosition];
     createChild(startCell, player);
 }
-
-// default 1
-// 

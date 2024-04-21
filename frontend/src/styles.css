@@ -587,6 +587,12 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 .scoreboard {
   text-align: center;
   height: 624px;
@@ -643,6 +649,42 @@ video {
   background-size: cover;
   width: 50px;
   height: 50px;
+}
+
+.bomb {
+  background-image: url('public/images/bomb.png');
+  background-size: cover;
+  animation: blinker 1s linear infinite;
+}
+
+.flame-center {
+  background-image: url('public/images/explosion-center.png');
+  background-size: cover;
+  opacity: 0.8;
+}
+
+.flame-left {
+  background-image: url('public/images/explosion-left.png');
+  background-size: cover;
+  opacity: 0.8;
+}
+
+.flame-right {
+  background-image: url('public/images/explosion-right.png');
+  background-size: cover;
+  opacity: 0.8;
+}
+
+.flame-up {
+  background-image: url('public/images/explosion-top.png');
+  background-size: cover;
+  opacity: 0.8;
+}
+
+.flame-down {
+  background-image: url('public/images/explosion-bottom.png');
+  background-size: cover;
+  opacity: 0.8;
 }
 
 .cell.destructible {

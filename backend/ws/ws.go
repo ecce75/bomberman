@@ -58,11 +58,11 @@ func handleMessages(msg *wsMessage, client *Client) {
 		// Handle chat message
 		handleChatMessage(client, msg.Payload)
 	case "move":
-		handleGameInput(client, *msg)
+		handleMovement(client, *msg)
 	case "restartGame":
 		// Handle restart game
-	case "bombPlaced":
-		// Handle bomb placement
+	case "bomb":
+		handlePlaceBomb(client)
 	}
 }
 

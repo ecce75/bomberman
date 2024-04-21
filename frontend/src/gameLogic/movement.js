@@ -18,17 +18,12 @@ function movePlayerY(player, direction) {
 }
 
 export function updatePlayerPosition(playerID, newPosition) {
-    // i want to remove the 'player' + playerID class from the old position
-    // and add it to the new position
     const  oldPlayerElement = document.getElementById('player' + playerID)
-    // If found, remove the class from the old position element
-    console.log('player' + playerID)
+
     if (oldPlayerElement) {
-        // Assuming there should only be one element with this class at a time
         oldPlayerElement.removeAttribute('id');
     }
 
-    console.log(`.cell[style*="grid-area: ${newPosition.Y} / ${newPosition.X}"]`)
 
     const newSelector = `.cell[style*="grid-area: ${newPosition.Y + 1} / ${newPosition.X + 1}"]`; // Plus 1 to match 1-based indexing
     const newPlayerElement = document.querySelector(newSelector);

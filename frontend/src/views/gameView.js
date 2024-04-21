@@ -21,8 +21,6 @@ export function gameView(game, ws) {
     const score = createScoreboard();
     //const player = createPlayersAndPlace();
 
-    const username = sessionStorage.getItem('username');
-    const mainPlayer = players.find(player => player.username === username);
     addEvent('keydown', document, function(event) {
         let move = "";
         switch (event.key) {
@@ -30,6 +28,11 @@ export function gameView(game, ws) {
             case 'ArrowDown': move = 'down'; break;
             case 'ArrowLeft': move = 'left'; break;
             case 'ArrowRight': move = 'right'; break;
+            case ' ': {
+                console.log("bomb")
+                ws.send(JSON.stringify({ type: 'bomb', payload: "bomb" }));
+                return;
+            }
             default: return; // Ignore other keys
         }
         ws.send(JSON.stringify({ type: 'move', payload: move }));

@@ -17,10 +17,22 @@ func (gm *Game) BroadcastStartGame() {
 
 func (gm *Game) BroadcastPlayerDisconnected(name string, playerID string) {
 	for _, player := range gm.Players {
-		fmt.Println("Broadcasting player left: "+ name)
+		fmt.Println("Broadcasting player left: " + name)
 		player.Conn.WriteJSON(wsMessage{Type: "playerLeft", Payload: map[string]interface{}{
 			"playerID": playerID,
 			"name":     name,
 		}})
+	}
+}
+
+func (gm *Game) BroadCastBombPlacement(position Coordinates) {
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "bomb", Payload: position})
+	}
+}
+
+func (gm *Game) BroadcastFlames(positions []Coordinates) {
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "flames", Payload: positions})
 	}
 }

@@ -34,8 +34,6 @@ function createChild(parent, child) {
         // Assume it's a structure object and needs to be created
         const childElement = createStructure(child);
         parent.appendChild(childElement);
-    } else {
-        console.log('Unsupported child type:', child);
     }
 }
 
