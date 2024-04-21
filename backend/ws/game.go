@@ -2,23 +2,21 @@ package ws
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"log"
 )
 
 func startGame(lobby *Lobby) {
-	gameID := uuid.New().String()
 	newGame := &Game{
-		ID:      gameID,
+		ID:      lobby.ID,
 		Players: lobby.Players,
 		Timer:   nil, // No timer for now
 	}
-	games[gameID] = newGame
+	games[lobby.ID] = newGame
 	gameMap := NewGameMap(lobby.Players)
-	fmt.Println(gameMap)
+	fmt.Println(gameMap.gameMap)
 	for _, client := range newGame.Players {
 		client.Conn.WriteJSON(wsMessage{Type: "gameStart", Payload: map[string]interface{}{
-			"gameID":  gameID,
+			"gameID":  lobby.ID,
 			"gameMap": gameMap.gameMap,
 		}})
 	}
