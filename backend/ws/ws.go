@@ -56,8 +56,9 @@ func handleMessages(msg *wsMessage, client *Client) {
 		client.Name = name
 	case "chatMessage":
 		// Handle chat message
-	case "gameInput":
-	// 	handleGameInput(client, *msg)
+		handleChatMessage(client, msg.Payload)
+	case "move":
+		handleGameInput(client, *msg)
 	case "restartGame":
 		// Handle restart game
 	case "bombPlaced":
@@ -67,13 +68,36 @@ func handleMessages(msg *wsMessage, client *Client) {
 
 func handleDisconnect(clientID string) {
 	if client, ok := clients[clientID]; ok {
-		lobby := lobbies[client.GameID]
-		delete(lobby.Players, clientID)
-		delete(clients, clientID)
-		if len(lobby.Players) == 0 {
-			delete(lobbies, lobby.ID)
+		lobby, ok1 := lobbies[client.GameID]
+		game, ok2 := games[client.GameID]
+
+		if !ok1 {
+			log.Printf("Lobby not found for client %s", clientID)
+			if !ok2 {
+				log.Printf("Game not found for client %s", clientID)
+				// No lobby or game found so remove player from clients
+				delete(clients, clientID)
+			}
+			playerID := client.Player.ID
+			clientName := client.Name
+			delete(game.Players, clientID)
+			delete(clients, clientID)
+			if len(game.Players) == 0 {
+				delete(games, game.ID)
+			} else {
+				game.BroadcastPlayerDisconnected(clientName, playerID)
+			}
 		} else {
-			broadcastLobbyStatus(lobby)
+			// Lobby found so remove player from lobby and clients
+			delete(lobby.Players, clientID)
+			delete(clients, clientID)
+			if len(lobby.Players) == 0 {
+				delete(lobbies, lobby.ID)
+			} else {
+				broadcastLobbyStatus(lobby)
+			}
 		}
+	} else {
+		log.Printf("Client not found: %s", clientID)
 	}
 }

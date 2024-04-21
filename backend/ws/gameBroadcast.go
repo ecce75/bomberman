@@ -1,5 +1,7 @@
 package ws
 
+import "fmt"
+
 func (gm *Game) BroadcastStartGame() {
 	var players []*GamePlayer
 	for _, player := range gm.Players {
@@ -9,6 +11,16 @@ func (gm *Game) BroadcastStartGame() {
 		player.Conn.WriteJSON(wsMessage{Type: "gameStart", Payload: map[string]interface{}{
 			"players": players,
 			"map":     gm.Map.gameMap,
+		}})
+	}
+}
+
+func (gm *Game) BroadcastPlayerDisconnected(name string, playerID string) {
+	for _, player := range gm.Players {
+		fmt.Println("Broadcasting player left: "+ name)
+		player.Conn.WriteJSON(wsMessage{Type: "playerLeft", Payload: map[string]interface{}{
+			"playerID": playerID,
+			"name":     name,
 		}})
 	}
 }

@@ -101,11 +101,11 @@ func (gm *gameMap) placeDestructibleBlocks(count int) {
 // placePlayers sets player positions on the map
 func (gm *gameMap) placePlayers(players map[string]*Client) {
 	cornerCoordinates := [][2]int{
-		{0, 0}, {0, 12}, {12, 0}, {12, 12},
+		{0, 0}, {12, 12}, {0, 12}, {12, 0},
 	}
 	player := 3
 	for _, playerObj := range players {
-		x, y := cornerCoordinates[player-2][0], cornerCoordinates[player-2][1]
+		x, y := cornerCoordinates[player-3][0], cornerCoordinates[player-3][1]
 		gm.setFieldID(x, y, player)
 		playerObj.Player.SetPosition(x, y)
 		player++

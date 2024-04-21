@@ -587,73 +587,19 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-/* Chatbox and Scoreboard styling */
-.chatbox,
 .scoreboard {
-    text-align: center;
-    height: 730px; /* Consider responsiveness adjustments */
-    width: 210px; /* Consider using percentages or flex-grow in responsive contexts */
-    background-color: #C8C8C8;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Aligns children to the start of the flex container */
-    align-items: center; /* Centers items horizontally since the direction is column */
-    overflow: auto; /* Adds scroll if content exceeds the container size */
-}
-
-/* Base styles for the chatbox */
-.chatbox {
   text-align: center;
-  height: 730px;
-  width: 210px; /* Initial width */
+  height: 624px;
+  width: 210px;
+  margin: 40px;
   background-color: #C8C8C8;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  overflow: auto;
 }
 
-/* Styling for the input field inside the chatbox */
-.chatbox #messageInput {
-  width: 70%; /* Width relative to the chatbox */
-  padding: 5px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  transition: width 0.3s ease-in-out; /* Optional: Smooth transition for input field as well */
-}
-
-/* Optional: Increase input width when focused, if desired */
-.chatbox #messageInput:focus {
-  width: 90%;
-}
-
-/* Game board styling */
 .game-board {
-    border: 3px solid #FFFFFE;
-    margin: 0 auto; /* Centers the game board horizontally */
-    box-shadow: 0 0 0 35px #C8C8C8, 0 0 0 38px black; /* Shadow to mimic an outline */
-    background-color: #fff; /* Assuming white background for the game area */
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .game-container {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .chatbox,
-    .scoreboard,
-    .game-board {
-        width: 100%; /* Full width on smaller screens */
-        height: auto; /* Height auto to fit content */
-    }
+  outline: 35px solid #C8C8C8;
+  border: 3px solid #FFFFFE;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
 }
 
 .cell {
@@ -671,28 +617,28 @@ video {
   border-bottom: 3px solid black;
 }
 
-.cell.player1 {
+#player1 {
   background-image: url('public/images/player1.png');
   background-size: cover;
   width: 50px;
   height: 50px;
 }
-
-.cell.player2 {
+  
+#player2 {
   background-image: url('public/images/player2.png');
   background-size: cover;
   width: 50px;
   height: 50px;
 }
-
-.cell.player3 {
+  
+#player3 {
   background-image: url('public/images/player3.png');
   background-size: cover;
   width: 50px;
   height: 50px;
 }
 
-.cell.player4 {
+#player4 {
   background-image: url('public/images/player4.png');
   background-size: cover;
   width: 50px;
@@ -702,7 +648,113 @@ video {
 .cell.destructible {
   background-image: url('public/images/destructible-wall.png');
   background-size: cover;
+}
 
+/* General Chatbox Styles */
+.chatbox {
+  text-align: left;
+  height: 624px;
+  width: 210px;
+  margin: 40px;
+  background-color: #C8C8C8;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Style for the chat message area */
+#chatMessages {
+  overflow-y: auto;
+  /* allows scrolling */
+  padding: 5px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Individual Message Styles */
+.message {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  word-wrap: break-word;
+}
+
+.message .sender {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.message-self {
+  background-color: #f5d375;
+}
+
+.message .message-content {
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.message .time-sent {
+  font-size: 0.75em;
+  text-align: right;
+  color: #888;
+}
+
+/* Input area styles */
+.message-input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#messageInput {
+  flex-grow: 1;
+  max-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+#sendButton {
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#sendButton:hover {
+  background-color: #4cae4c;
+  /* darker green on hover */
+}
+
+/* Handling responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .chatbox {
+    width: 100%;
+    /* full width on small screens */
+    border-radius: 0;
+    /* no border radius on small screens */
+  }
+}
+
+
+.message .player-left {
+  color: rgb(240, 91, 91);
 }
 
 .textbox-style {
@@ -750,6 +802,8 @@ video {
   justify-content: center;
 }
 
+  
+  
 .timer-display {
   width: 100%;
   /* or adjust according to layout needs */
