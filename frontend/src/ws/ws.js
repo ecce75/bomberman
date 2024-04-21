@@ -13,7 +13,7 @@ function setupWebSocket() {
                 document.getElementById('countdown').textContent = msg.payload.toString();
                 break;
             case 'gameStart':
-                gameView(msg.payload.gameMap);
+                gameView(msg.payload);
             case "invalidUsername":
             // alert("Username already taken")
             // window.reload()

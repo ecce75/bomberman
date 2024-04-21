@@ -1,8 +1,9 @@
 import {createGameBoard, createChatbox, createScoreboard} from "../gameLogic/gameSetup.js"
 //import { createPlayersAndPlace } from "../gameLogic/player.js";
 import {createStructure} from "../framework.js";
+//import { createTimerDisplay } from "../gameLogic/util.js";
 
-export function gameView(map) {
+export function gameView(game) {
     const root = document.getElementById('root'); // Ensure you have a div with id="app-root" in your HTML
 
     const gameView = createStructure({
@@ -14,7 +15,7 @@ export function gameView(map) {
 
 
     // Create the game board and chatbox
-    const gameBoard = createGameBoard(map);
+    const gameBoard = createGameBoard(game);
     const chatbox = createChatbox();
     const score = createScoreboard();
     //const player = createPlayersAndPlace();

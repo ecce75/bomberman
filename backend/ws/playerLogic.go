@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"log"
 	"time"
 )
 
@@ -10,7 +11,7 @@ func NewGamePlayer(id string, username string) *GamePlayer {
 		ID:                id,
 		Username:          username,
 		Lives:             3,
-		Powerups:          Powerups{MaxBombCount: 1, ExplosionRange: 1, Speed: 1},
+		Powerups:          Powerups{Bomb: 1, Flames: 1, Speed: 1},
 		Position:          Coordinates{X: 0, Y: 0},
 		ActiveBombsPlaced: 0,
 	}
@@ -18,7 +19,7 @@ func NewGamePlayer(id string, username string) *GamePlayer {
 
 // CanPlaceBomb checks if a player can place another bomb
 func (p *GamePlayer) CanPlaceBomb() bool {
-	return p.Powerups.MaxBombCount > p.ActiveBombsPlaced
+	return p.Powerups.Bomb > p.ActiveBombsPlaced
 }
 
 // IncreaseActiveBombs increases the count of active bombs placed by the player
@@ -42,7 +43,7 @@ func (p *GamePlayer) StartImmunityTimer(game *Game, playerIndex int) {
 			p.ImmunityTimer.Stop()
 			p.ImmunityTimer = nil
 			// Trigger event for immunity end
-			BroadcastImmunityEnd(game.ID, playerIndex)
+			game.BroadcastImmunityEnd(playerIndex)
 		})
 	}
 }
@@ -53,9 +54,30 @@ func (p *GamePlayer) LoseLife(game *Game, playerIndex int) {
 		p.Lives--
 		if p.Lives == 0 {
 			// Check if game is over
-			CheckGameOver(game.ID)
+			game.CheckGameOver()
 		}
-		BroadcastPlayerDamage(game.ID, playerIndex, p)
+		game.BroadcastPlayerDamage(playerIndex, p)
 		p.StartImmunityTimer(game, playerIndex)
 	}
+}
+
+func (p *GamePlayer) processPlayerMovement(game *Game, clientID string, direction string) {
+	// Retrieve player
+	player, ok := game.Players[clientID]
+	if !ok {
+		log.Println("Player not found in the game")
+		return
+	}
+	println(player)
+
+	// Example of moving up
+	if direction == "up" {
+		// Assuming we have coordinates for players
+		// Update player coordinates
+		// Check if movement is valid
+		// player.X, player.Y = new coordinates after moving up
+		// Update game state and broadcast to all players
+	}
+
+	// Implement other directions and validate the moves
 }

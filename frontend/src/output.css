@@ -587,63 +587,125 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+/* Chatbox and Scoreboard styling */
 .chatbox,
 .scoreboard {
     text-align: center;
-    height: 624px;
-    width: 210px;
+    height: 730px; /* Consider responsiveness adjustments */
+    width: 210px; /* Consider using percentages or flex-grow in responsive contexts */
     background-color: #C8C8C8;
-}
-.game-board {
-    outline: 35px solid #C8C8C8;
-    border: 3px solid #FFFFFE;
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
-}
-.cell {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-color: #3C7B01;
+    padding: 10px;
     box-sizing: border-box;
-    margin-bottom: -6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns children to the start of the flex container */
+    align-items: center; /* Centers items horizontally since the direction is column */
+    overflow: auto; /* Adds scroll if content exceeds the container size */
 }
-.cell.indestructible {
-    background-color: #C8C8C8;
+
+/* Base styles for the chatbox */
+.chatbox {
+  text-align: center;
+  height: 730px;
+  width: 210px; /* Initial width */
+  background-color: #C8C8C8;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: auto;
+}
+
+/* Styling for the input field inside the chatbox */
+.chatbox #messageInput {
+  width: 70%; /* Width relative to the chatbox */
+  padding: 5px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  transition: width 0.3s ease-in-out; /* Optional: Smooth transition for input field as well */
+}
+
+/* Optional: Increase input width when focused, if desired */
+.chatbox #messageInput:focus {
+  width: 90%;
+}
+
+/* Game board styling */
+.game-board {
     border: 3px solid #FFFFFE;
-    border-bottom: 3px solid black;
+    margin: 0 auto; /* Centers the game board horizontally */
+    box-shadow: 0 0 0 35px #C8C8C8, 0 0 0 38px black; /* Shadow to mimic an outline */
+    background-color: #fff; /* Assuming white background for the game area */
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .game-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chatbox,
+    .scoreboard,
+    .game-board {
+        width: 100%; /* Full width on smaller screens */
+        height: auto; /* Height auto to fit content */
+    }
+}
+
+.cell {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #3C7B01;
+  box-sizing: border-box;
+  margin-bottom: -6px;
+}
+
+.cell.indestructible {
+  background-color: #C8C8C8;
+  border: 3px solid #FFFFFE;
+  border-bottom: 3px solid black;
+}
+
 .cell.player1 {
-  background-image: url('public/images/player1.png'); 
-  background-size: cover; 
+  background-image: url('public/images/player1.png');
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.player2 {
   background-image: url('public/images/player2.png');
-  background-size: cover; 
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.player3 {
-  background-image: url('public/images/player3.png'); 
-  background-size: cover; 
+  background-image: url('public/images/player3.png');
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.player4 {
-  background-image: url('public/images/player4.png'); 
-  background-size: cover; 
+  background-image: url('public/images/player4.png');
+  background-size: cover;
   width: 50px;
   height: 50px;
 }
+
 .cell.destructible {
   background-image: url('public/images/destructible-wall.png');
   background-size: cover;
 
 }
-  
-    .textbox-style {
+
+.textbox-style {
   margin-bottom: 1rem;
   border-radius: 0.25rem;
   border-width: 1px;
@@ -660,18 +722,18 @@ video {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
 }
-  
-    .textbox-style::-moz-placeholder {
+
+.textbox-style::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
 }
-  
-    .textbox-style::placeholder {
+
+.textbox-style::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(156 163 175 / var(--tw-placeholder-opacity));
 }
-  
-    .textbox-style:focus {
+
+.textbox-style:focus {
   --tw-border-opacity: 1;
   border-color: rgb(254 243 199 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
@@ -679,18 +741,79 @@ video {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-    #gameView {
+
+#gameView {
   margin: 0px;
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
 }
-    .hover\:bg-green-600:hover {
+
+.timer-display {
+  width: 100%;
+  /* or adjust according to layout needs */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  /* Adjust size as necessary */
+}
+
+.timer-flex-container {
+  display: flex;
+  /* Aligns children (minutes, colon, seconds) inline */
+}
+
+.time-element {
+  margin: 0 5px;
+  /* Adds spacing around the time elements */
+}
+
+.players-display {
+  display: inline;
+}
+
+.player-info {
+  display: flex;
+  gap: 10px;
+  border-top-color: #3C7B01;
+  border-width: 2px;
+}
+
+.player-avatar {
+  width: 40px; /* Fixed width, adjust as needed */
+  height: 40px; /* Fixed height, adjust as needed */
+  border-radius: 50%; /* Circular avatar */
+  border: 2px solid #ccc; /* Gray border around the avatar */
+}
+
+.player-details {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  font-weight: 500;
+  color: rgb(2, 126, 12);
+}
+
+.player-lives {
+  display: flex;
+  align-items: center;
+  gap: 3px; /* Space between the icon and the number of lives */
+  font-weight: 700;
+  color: crimson;
+}
+
+.player-lives img {
+  width: 30px;
+  height: 30px; /* Size of the lives icon */
+}
+
+.powerups-list img {
+  width: 20px;
+  height: 20px;
+}
+
+.hover\:bg-green-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 }
-
-
-
-
