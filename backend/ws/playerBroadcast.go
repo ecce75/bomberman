@@ -1,5 +1,7 @@
 package ws
 
+import "fmt"
+
 // BroadcastPlayerDamage is a placeholder for broadcasting player damage
 func (gm *Game) BroadcastPlayerDamage(damagedPlayer *GamePlayer) {
 	for _, player := range gm.Players {
@@ -36,10 +38,10 @@ func (gm *Game) CheckGameOver() {
 
 // BroadcastImmunityEnd is a placeholder for broadcasting end of immunity
 func (gm *Game) BroadcastImmunityEnd(playerID string) {
+	fmt.Println("Broadcasting immunity end for player: " + playerID)
 	for _, player := range gm.Players {
-		player.Conn.WriteJSON(wsMessage{Type: "playerMovement", Payload: map[string]interface{}{
-			"playerID":    playerID,
-			"immunityEnd": true,
+		player.Conn.WriteJSON(wsMessage{Type: "immunity", Payload: map[string]interface{}{
+			"playerID": playerID,
 		}})
 	}
 }
@@ -56,7 +58,7 @@ func (gm *Game) BroadcastPlayerMovement(playerID string, coordinates Coordinates
 // Broadcast a player getting a powerup to all players
 // for powerup, use "bomb", "flamerange", "speed"
 func (gm *Game) BroadcastPlayerPowerups(playerID string) {
-	var powerman Powerups;
+	var powerman Powerups
 	for _, player := range gm.Players {
 		if player.Player.ID == playerID {
 			powerman = player.Player.Powerups
@@ -65,7 +67,7 @@ func (gm *Game) BroadcastPlayerPowerups(playerID string) {
 	for _, player := range gm.Players {
 		player.Conn.WriteJSON(wsMessage{Type: "playerPowerup", Payload: map[string]interface{}{
 			"playerID": playerID,
-			"powerups":  powerman,
+			"powerups": powerman,
 		}})
 	}
 }

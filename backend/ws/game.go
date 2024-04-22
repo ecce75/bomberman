@@ -40,7 +40,6 @@ func (gm *Game) processPlayerMovement(clientID string, direction string) Coordin
 	player, ok := gm.Players[clientID]
 	if !ok {
 		// Handle case where player is not found
-		fmt.Println("Player not found: ", clientID)
 		return Coordinates{} // or handle the error as appropriate
 	}
 
@@ -72,13 +71,13 @@ func (gm *Game) processPlayerMovement(clientID string, direction string) Coordin
 			gm.Map.removePowerUpFromTile(powerup, gm)
 			// notify frontend to update player speed
 			gm.BroadcastPlayerPowerups(player.Player.ID)
-			
+
 		}
 		if powerup.Position == newPosition && powerup.FieldCode == 10 {
 			player.Player.Powerups.Flames++
 			fmt.Println("Player reached flames powerup: ", player.Player.Username)
 			gm.Map.removePowerUpFromTile(powerup, gm)
-			
+
 			gm.BroadcastPlayerPowerups(player.Player.ID)
 		}
 		if powerup.Position == newPosition && powerup.FieldCode == 11 {
@@ -131,12 +130,12 @@ func (gm *Game) activateFlames(position Coordinates, flameRange int) {
 					gm.Map.activePowerups = append(gm.Map.activePowerups, PostFlameCoordinates{Position: newPos, FieldCode: postFlameCode})
 				}
 				// Check if any players are in the affected position
-                for _, player := range gm.Players {
-                    if player.Player.Position == newPos {
+				for _, player := range gm.Players {
+					if player.Player.Position == newPos {
 						fmt.Println("Player hit by flame in activateflames: ", player.Player.Username)
-                        player.Player.LoseLife(gm)
-                    }
-                }
+						player.Player.LoseLife(gm)
+					}
+				}
 			}
 		}
 	}
@@ -145,14 +144,12 @@ func (gm *Game) activateFlames(position Coordinates, flameRange int) {
 
 func (gm *Game) activateFlameAt(position Coordinates, fieldCode int) {
 	gm.Map.gameMap[position.Y][position.X] = 8 // Assuming 8 represents an active flame
-	fmt.Println("Flame activated at position: ", position)
 	time.AfterFunc(1*time.Second, func() {
 		gm.Map.gameMap[position.Y][position.X] = fieldCode
 	})
 }
 
 func (gm *Game) processFlameEffects(flameCode int) {
-	fmt.Println("Flame code: ", flameCode)
 	for _, player := range gm.Players {
 		if player.Player.ID == strconv.Itoa(flameCode-2) { // Assumes ID "1" for code 3, "2" for code 4, etc.
 			fmt.Println("Player hit by flame: ", player.Player.ID)
@@ -163,16 +160,15 @@ func (gm *Game) processFlameEffects(flameCode int) {
 
 func (gm *Game) generatePowerUp(position Coordinates) int {
 	// rand.New(rand.NewSource(time.Now().UnixNano()))
-	numbers := []int{0, 0, 0, 0, 1}
+	// numbers := []int{0, 0, 0, 0, 1}
+	numbers := []int{1}
 	number := numbers[rand.Intn(len(numbers))]
-	fmt.Println("Random number generated: ", number)
 	if number == 1 && gm.Map.gameMap[position.Y][position.X] == 2 {
-		numbers = []int{9, 10, 11}
+		// numbers = []int{9, 10, 11}
+		numbers = []int{9}
 		number = numbers[rand.Intn(len(numbers))]
-		fmt.Println("Power-up generated at position: ", position)
 		return number
 	} else {
-		fmt.Println("Field updated at position: ", position)
 		return 0
 	}
 }

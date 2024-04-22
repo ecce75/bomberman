@@ -589,7 +589,7 @@ video {
 
 @keyframes blinker {
   50% {
-    opacity: 0;
+    opacity: 0.5;
   }
 }
 
@@ -651,6 +651,11 @@ video {
   height: 50px;
 }
 
+.blinking {
+  animation: blinker 1s linear infinite;
+}
+
+
 .bomb {
   background-image: url('public/images/bomb.png');
   background-size: cover;
@@ -691,6 +696,8 @@ video {
   background-image: url('public/images/bomb_powerup.png');
   background-size: cover;
 }
+
+
 
 .rangePowerup {
   background-image: url('public/images/flamerange_powerup.png');

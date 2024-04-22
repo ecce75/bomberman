@@ -7,12 +7,18 @@ export function updatePlayerPosition(playerID, newPosition) {
     }
 
 
+
     const newSelector = `.cell[style*="grid-area: ${newPosition.Y + 1} / ${newPosition.X + 1}"]`; // Plus 1 to match 1-based indexing
     const newPlayerElement = document.querySelector(newSelector);
     if (newPlayerElement) {
         newPlayerElement.id = 'player' + playerID;
     }else {
         console.log('no element found')
+    }
+
+    if (oldPlayerElement.classList.contains('blinking')) {
+        oldPlayerElement.classList.remove('blinking');
+        newPlayerElement.classList.add('blinking');
     }
 }
 

@@ -58,8 +58,32 @@ export function removePlayerFromGame(playerID) {
 export function handlePlayerLoseLife(payload) {
     for (let i = 0; i < players.length; i++) {
         if (players[i].id === payload.playerID) {
+            const playerID = 'player' + players[i].id;
+            const player = document.getElementById(playerID);
+            if (player) {
+                addBlinkingEffect(playerID);
+            }
             players[i].lives = payload.lives;
             updateLivesDisplay(players[i].id, players[i].lives);
+
         }
+    }
+}
+
+export function disableImmunity(playerID) {
+    removeBlinkingEffect('player' + playerID);
+}
+
+function addBlinkingEffect(playerID) {
+    const element = document.getElementById(playerID);
+    if (element) {
+        element.classList.add('blinking');
+    }
+}
+
+function removeBlinkingEffect(playerID) {
+    const element = document.getElementById(playerID);
+    if (element) {
+        element.classList.remove('blinking');
     }
 }

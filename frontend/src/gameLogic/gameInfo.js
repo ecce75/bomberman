@@ -1,6 +1,8 @@
 import { createStructure } from "/framework.js";
 import { players } from "./gameSetup.js";
 
+export let speed = 300
+
 export function createTimerDisplay() {
     // Create the timer display structure
     const timerDisplay = createStructure({
@@ -105,8 +107,14 @@ export function updatePlayerPowerupsDisplay(payload) {
         playerPowerupsDisplay = document.getElementById('powerlist' + payload.playerID);
     }
 
+    
+
     var intPlayerID = parseInt(payload.playerID);
     --intPlayerID;
+    
+    if (players[intPlayerID].powerups.speed != payload.powerups.Speed) {
+        speed -= 50;
+    }
     players[intPlayerID].powerups.bomb = payload.powerups.Bomb;
     players[intPlayerID].powerups.flamerange = payload.powerups.Flames;
     players[intPlayerID].powerups.speed = payload.powerups.Speed;

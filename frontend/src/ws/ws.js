@@ -1,7 +1,7 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
 import {updateField, updatePlayerPosition} from "../gameLogic/movement.js";
-import { removePlayerFromGame, handlePlayerLoseLife } from "../gameLogic/player.js";
+import {removePlayerFromGame, handlePlayerLoseLife, disableImmunity} from "../gameLogic/player.js";
 import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/gameChat.js";
 import { normalizeField } from "../gameLogic/mapEdit.js";
 
@@ -42,8 +42,9 @@ function setupWebSocket() {
                 updatePlayerPowerupsDisplay(msg.payload);
                 break;
             case "invalidUsername":
-                // alert("Username already taken")
-                // window.reload()
+                alert("Username already taken")
+                window.reload()
+                break
             // Handle other messages
             case "chatMessage":
                 // handle incoming chat messages
@@ -63,7 +64,10 @@ function setupWebSocket() {
                 // handle game over
                 alert("Game Over! Winner: " + msg.payload.winner);
                 window.location.reload();
-                break;  
+                break;
+            case 'immunity':
+                disableImmunity(msg.payload.playerID);
+                break;
         }
     };
     return ws;
