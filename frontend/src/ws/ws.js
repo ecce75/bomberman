@@ -3,8 +3,9 @@ import {gameView} from "/views/gameView.js";
 import {updatePlayerPosition} from "../gameLogic/movement.js";
 import { removePlayerFromGame, handlePlayerLoseLife } from "../gameLogic/player.js";
 import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/gameChat.js";
-
-import {activateBomb, activateFlames} from "../gameLogic/player.js";
+import { normalizeField } from "../gameLogic/mapEdit.js";
+import {activateBomb, activateFlames, disableImmunity} from "../gameLogic/player.js";
+import { updatePlayerPowerupsDisplay } from "../gameLogic/gameInfo.js";
 
 function setupWebSocket() {
     const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
@@ -35,9 +36,17 @@ function setupWebSocket() {
                 console.log(msg.payload)
                 activateFlames(msg.payload);
                 break;
+            case 'fieldUpdate':
+                normalizeField(msg.payload);
+                break;
+            case 'playerPowerup':
+                // update player powerups
+                updatePlayerPowerupsDisplay(msg.payload);
+                break;
             case "invalidUsername":
-                // alert("Username already taken")
-                // window.reload()
+                alert("Username already taken")
+                window.reload()
+                break;
             // Handle other messages
             case "chatMessage":
                 // handle incoming chat messages
@@ -57,7 +66,10 @@ function setupWebSocket() {
                 // handle game over
                 alert("Game Over! Winner: " + msg.payload.winner);
                 window.location.reload();
-                break;  
+                break;
+            case 'immunity':
+                disableImmunity(msg.payload.playerID);
+                break;
         }
     };
     return ws;
