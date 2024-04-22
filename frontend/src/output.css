@@ -691,6 +691,21 @@ video {
   opacity: 0.8;
 }
 
+.bombPowerup {
+  background-image: url('public/images/bomb-powerup.png');
+  background-size: cover;
+}
+
+.rangePowerup {
+  background-image: url('public/images/flamerange_powerup.png');
+  background-size: cover;
+}
+
+.speedPowerup {
+  background-image: url('public/images/speed_powerup.png');
+  background-size: cover;
+}
+
 .cell.destructible {
   background-image: url('public/images/destructible-wall.png');
   background-size: cover;

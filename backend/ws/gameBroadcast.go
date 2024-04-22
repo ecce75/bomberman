@@ -31,8 +31,15 @@ func (gm *Game) BroadCastBombPlacement(position Coordinates) {
 	}
 }
 
-func (gm *Game) BroadcastFlames(positions []Coordinates) {
+func (gm *Game) BroadcastFlames(positions []PostFlameCoordinates) {
 	for _, player := range gm.Players {
 		player.Conn.WriteJSON(wsMessage{Type: "flames", Payload: positions})
+	}
+}
+
+func (gm *Game) BroadcastFieldUpdate(positions map[string]interface{}) {
+	fmt.Println("Broadcasting field update at positions: ", positions)
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "fieldUpdate", Payload: positions})
 	}
 }

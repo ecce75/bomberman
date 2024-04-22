@@ -1,5 +1,6 @@
 import { players } from './gameSetup.js';
 import { updateLivesDisplay } from './gameInfo.js';
+import {updateField} from "./movement.js";
 
 export function activateBomb(pos) {
     const bombElement = document.querySelector(`.cell[style*="grid-area: ${pos.Y + 1} / ${pos.X + 1}"]`);
@@ -14,35 +15,31 @@ export function activateBomb(pos) {
 
 export function activateFlames(pos) {
     for (let i = 0; i < pos.length; i++) {
-        const flameElement = document.querySelector(`.cell[style*="grid-area: ${pos[i].Y + 1} / ${pos[i].X + 1}"]`);
+        const flamePos = pos[i].Position;
+        const centerFlamePos = pos[0].Position;
+        const flameElement = document.querySelector(`.cell[style*="grid-area: ${flamePos.Y + 1} / ${flamePos.X + 1}"]`);
         if (flameElement) {
-            console.log('flame activated', pos[i].X, pos[i].Y, pos[0].X, pos[0].Y)
             flameElement.classList.remove('destructible');
-            if ((pos[i].X === pos[0].X) && (pos[i].Y === pos[0].Y)) {
+            if ((flamePos.X === centerFlamePos.X) && (flamePos.Y === centerFlamePos.Y)) {
                 flameElement.classList.add('flame-center');
-                console.log('flame center')
             }
-            if (pos[i].Y > pos[0].Y) {
+            if (flamePos.Y > centerFlamePos.Y) {
                 flameElement.classList.add('flame-down');
-                console.log('flame up')
             }
-            if (pos[i].Y < pos[0].Y) {
+            if (flamePos.Y < centerFlamePos.Y) {
                 flameElement.classList.add('flame-up');
-                console.log('flame down')
             }
-            if (pos[i].X > pos[0].X) {
+            if (flamePos.X > centerFlamePos.X) {
                 flameElement.classList.add('flame-right');
-                console.log('flame right')
             }
-            if (pos[i].X < pos[0].X) {
+            if (flamePos.X < centerFlamePos.X) {
                 flameElement.classList.add('flame-left');
-                console.log('flame left')
             }
-
 
             setTimeout(() => {
                 flameElement.classList.remove('flame-up', 'flame-down', 'flame-right', 'flame-left', 'flame-center');
-            }, 1500);
+                updateField(flamePos, pos[i].FieldCode);
+            }, 1000);
         }
     }
 }

@@ -1,6 +1,6 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
-import {updatePlayerPosition} from "../gameLogic/movement.js";
+import {updateField, updatePlayerPosition} from "../gameLogic/movement.js";
 import { removePlayerFromGame, handlePlayerLoseLife } from "../gameLogic/player.js";
 import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/gameChat.js";
 
@@ -22,7 +22,6 @@ function setupWebSocket() {
                 setupChat(ws);
                 break;
             case 'playerMovement':
-                console.log(msg.payload)
                 if ( msg.payload.newPosition != undefined) {
                 updatePlayerPosition(msg.payload.playerID, msg.payload.newPosition);
                 }
@@ -35,6 +34,10 @@ function setupWebSocket() {
                 console.log(msg.payload)
                 activateFlames(msg.payload);
                 break;
+            // case 'fieldUpdate':
+            //     console.log(msg.payload)
+            //     updateField(msg.payload);
+            //     break;
             case "invalidUsername":
                 // alert("Username already taken")
                 // window.reload()

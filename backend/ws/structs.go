@@ -75,3 +75,8 @@ type Coordinates struct {
 	X int
 	Y int
 }
+
+type PostFlameCoordinates struct {
+	Position  Coordinates
+	FieldCode int
+}

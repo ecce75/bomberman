@@ -1,6 +1,5 @@
 
 export function updatePlayerPosition(playerID, newPosition) {
-    console.log('updating player position', newPosition)
     const  oldPlayerElement = document.getElementById('player' + playerID)
 
     if (oldPlayerElement) {
@@ -15,6 +14,23 @@ export function updatePlayerPosition(playerID, newPosition) {
     }else {
         console.log('no element found')
     }
+}
+
+export function updateField(pos, fieldCode) {
+        const cell = document.querySelector(`.cell[style*="grid-area: ${pos.Y + 1} / ${pos.X + 1}"]`);
+        if (cell) {
+            switch (fieldCode) {
+                case 9:
+                    cell.classList.add('speedPowerup');
+                    break;
+                case 10:
+                    cell.classList.add('rangePowerup');
+                    break;
+                case 11:
+                    cell.classList.add('bombPowerup');
+                    break;
+            }
+        }
 }
 
 
