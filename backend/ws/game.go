@@ -99,6 +99,14 @@ func (gm *Game) activateFlames(position Coordinates, flameRange int) {
 				}
 				gm.activateFlameAt(newPos, postFlameCode)
 				flames = append(flames, PostFlameCoordinates{Position: newPos, FieldCode: postFlameCode})
+
+				// Check if any players are in the affected position
+                for _, player := range gm.Players {
+                    if player.Player.Position == newPos {
+						fmt.Println("Player hit by flame in activateflames: ", player.Player.Username)
+                        player.Player.LoseLife(gm)
+                    }
+                }
 			}
 		}
 	}
@@ -117,6 +125,7 @@ func (gm *Game) processFlameEffects(flameCode int) {
 	fmt.Println("Flame code: ", flameCode)
 	for _, player := range gm.Players {
 		if player.Player.ID == strconv.Itoa(flameCode-2) { // Assumes ID "1" for code 3, "2" for code 4, etc.
+			fmt.Println("Player hit by flame: ", player.Player.ID)
 			player.Player.LoseLife(gm)
 		}
 	}
