@@ -52,3 +52,20 @@ func (gm *Game) BroadcastPlayerMovement(playerID string, coordinates Coordinates
 		}})
 	}
 }
+
+// Broadcast a player getting a powerup to all players
+// for powerup, use "bomb", "flamerange", "speed"
+func (gm *Game) BroadcastPlayerPowerups(playerID string) {
+	var powerman Powerups;
+	for _, player := range gm.Players {
+		if player.Player.ID == playerID {
+			powerman = player.Player.Powerups
+		}
+	}
+	for _, player := range gm.Players {
+		player.Conn.WriteJSON(wsMessage{Type: "playerPowerup", Payload: map[string]interface{}{
+			"playerID": playerID,
+			"powerups":  powerman,
+		}})
+	}
+}

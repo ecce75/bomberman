@@ -297,7 +297,18 @@
   height: 30px; /* Size of the lives icon */
 }
 
+.powerups-list {
+  list-style: none;
+  padding: 0;
+}
+
 .powerups-list img {
   width: 20px;
   height: 20px;
+}
+
+.powerups-list li {
+  display:flex;
+  align-items: center;
+  gap: 5px;
 }

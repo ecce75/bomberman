@@ -61,6 +61,34 @@ func (gm *Game) processPlayerMovement(clientID string, direction string) Coordin
 	if !gm.isValidPosition(newPosition) {
 		return player.Player.Position // Return the old position if new position is invalid
 	}
+
+	// Check if the new position has a powerup
+	for _, powerup := range gm.Map.activePowerups {
+		// Check if the player has reached the speed powerup
+		if powerup.Position == newPosition && powerup.FieldCode == 9 {
+			player.Player.Powerups.Speed++
+			fmt.Println("Player reached speed powerup: ", player.Player.Username)
+			// clear powerup from tile
+			gm.Map.removePowerUpFromTile(powerup, gm)
+			// notify frontend to update player speed
+			gm.BroadcastPlayerPowerups(player.Player.ID)
+			
+		}
+		if powerup.Position == newPosition && powerup.FieldCode == 10 {
+			player.Player.Powerups.Flames++
+			fmt.Println("Player reached flames powerup: ", player.Player.Username)
+			gm.Map.removePowerUpFromTile(powerup, gm)
+			
+			gm.BroadcastPlayerPowerups(player.Player.ID)
+		}
+		if powerup.Position == newPosition && powerup.FieldCode == 11 {
+			player.Player.Powerups.Bomb++
+			fmt.Println("Player reached bomb powerup: ", player.Player.Username)
+			gm.Map.removePowerUpFromTile(powerup, gm)
+			gm.BroadcastPlayerPowerups(player.Player.ID)
+		}
+	}
+
 	if gm.Map.gameMap[newPosition.Y][newPosition.X] == 8 {
 		player.Player.LoseLife(gm) // Return the old position if new position is invalid
 	}
@@ -99,7 +127,9 @@ func (gm *Game) activateFlames(position Coordinates, flameRange int) {
 				}
 				gm.activateFlameAt(newPos, postFlameCode)
 				flames = append(flames, PostFlameCoordinates{Position: newPos, FieldCode: postFlameCode})
-
+				if postFlameCode != 0 {
+					gm.Map.activePowerups = append(gm.Map.activePowerups, PostFlameCoordinates{Position: newPos, FieldCode: postFlameCode})
+				}
 				// Check if any players are in the affected position
                 for _, player := range gm.Players {
                     if player.Player.Position == newPos {

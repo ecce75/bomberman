@@ -23,7 +23,7 @@ export function createGameBoard(game) {
     const map = game.map; // Get the map from the game object
     const gamePlayers = game.players; // Get the players from the game object
     console.log(gamePlayers);
-    
+
     for (const player of gamePlayers) {
         addPlayer(player); // Add the player to the players array
 
@@ -118,10 +118,4 @@ function addPlayer(player) {
         immunityTimer: null,
         activeBombsPlaced: 0,
     });
-}
-
-
-function placePlayer(board, player, startPosition) {
-    const startCell = board.children[startPosition];
-    createChild(startCell, player);
 }

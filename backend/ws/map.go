@@ -117,33 +117,24 @@ func (gm *gameMap) setFieldID(x, y, newID int) {
 	gm.gameMap[y][x] = newID
 }
 
-// isActiveFlameOnCell checks if there is an active flame on the cell
-func (gm *gameMap) isActiveFlameOnCell(coordinates Coordinates) bool {
-	for _, flame := range gm.activeFlames {
-		if flame.X == coordinates.X && flame.Y == coordinates.Y {
-			return true
+func (gm *gameMap) removePowerUpFromActivePowerups(powerup PostFlameCoordinates) []PostFlameCoordinates {
+	var updatedPowerups []PostFlameCoordinates
+	for _, p := range gm.activePowerups {
+		if p.Position.X != powerup.Position.X || p.Position.Y != powerup.Position.Y {
+			updatedPowerups = append(updatedPowerups, p)
 		}
 	}
-	return false
+	return updatedPowerups
 }
 
-// addActiveFlames adds new active flames to the map
-func (gm *gameMap) addActiveFlames(newFlameCoordinates []Coordinates) {
-	gm.activeFlames = append(gm.activeFlames, newFlameCoordinates...)
-}
-
-// removeActiveFlames removes an active flame from the map
-func (gm *gameMap) removeActiveFlames(flameToRemove Coordinates) bool {
-	for i, flame := range gm.activeFlames {
-		if flame.X == flameToRemove.X && flame.Y == flameToRemove.Y {
-			gm.activeFlames = append(gm.activeFlames[:i], gm.activeFlames[i+1:]...)
-			return true
-		}
-	}
-	return false
+func (gm *gameMap) removePowerUpFromTile(powerup PostFlameCoordinates, game *Game) {
+	gm.setFieldID(powerup.Position.X, powerup.Position.Y, 0)
+	gm.activePowerups = gm.removePowerUpFromActivePowerups(powerup)
+	game.BroadcastFieldUpdate(powerup.Position)
 }
 
 func (p *GamePlayer) SetPosition(x int, y int) {
 	p.Position.X = x
 	p.Position.Y = y
 }
+
