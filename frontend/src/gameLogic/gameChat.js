@@ -19,7 +19,7 @@ export function createChatbox() {
                 children: [
                     {
                         tag: 'input',
-                        attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'What yuh sayin, mon?']
+                        attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Wa gwaan?']
                     },
                     {
                         tag: 'button',
