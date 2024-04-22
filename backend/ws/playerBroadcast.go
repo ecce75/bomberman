@@ -12,11 +12,23 @@ func (gm *Game) BroadcastPlayerDamage(damagedPlayer *GamePlayer) {
 
 // CheckGameOver is a placeholder to check if the game is over
 func (gm *Game) CheckGameOver() {
-	if len(gm.Players) == 1 {
+	// check if there are more than 1 players left with lives
+	alivePlayers := 0
+	// get last alive player name
+	lastAlivePlayer := ""
+	for _, player := range gm.Players {
+		if player.Player.Lives > 0 {
+			alivePlayers++
+			lastAlivePlayer = player.Name
+		}
+
+	}
+
+	if alivePlayers == 1 {
 		for _, player := range gm.Players {
 			player.Conn.WriteJSON(wsMessage{Type: "gameOver", Payload: map[string]interface{}{
 				"gameOver": true,
-				"winner":   player.Name,
+				"winner":   lastAlivePlayer,
 			}})
 		}
 	}
