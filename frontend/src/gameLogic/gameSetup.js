@@ -97,7 +97,6 @@ export function createScoreboard() {
     return scoreboard;
 }
 
-
 function addPlayer(player) {
     if (player.Position === undefined) {
         return;
@@ -107,7 +106,7 @@ function addPlayer(player) {
         username: player.Username,
         lives: player.Lives,
         powerups: {
-            bomb: 2,
+            bomb: 1,
             flamerange: 1,
             speed: 1,
         },

@@ -13,7 +13,6 @@ export function gameView(game, ws) {
         ]
     })
 
-
     // Create the game board and chatbox
     const gameBoard = createGameBoard(game);
     const chatbox = createChatbox();

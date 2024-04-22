@@ -7,7 +7,6 @@ export function updatePlayerPosition(playerID, newPosition) {
         oldPlayerElement.removeAttribute('id');
     }
 
-
     const newSelector = `.cell[style*="grid-area: ${newPosition.Y + 1} / ${newPosition.X + 1}"]`; // Plus 1 to match 1-based indexing
     const newPlayerElement = document.querySelector(newSelector);
     if (newPlayerElement) {
@@ -16,5 +15,3 @@ export function updatePlayerPosition(playerID, newPosition) {
         console.log('no element found')
     }
 }
-
-
