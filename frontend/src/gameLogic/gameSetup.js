@@ -97,7 +97,6 @@ export function createScoreboard() {
     return scoreboard;
 }
 
-
 function addPlayer(player) {
     if (player.Position === undefined) {
         return;

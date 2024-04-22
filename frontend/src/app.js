@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
 });
 
-
 function initializeApp() {
     const root = document.getElementById('root');
     root.innerHTML = ''; // Clear previous content if any

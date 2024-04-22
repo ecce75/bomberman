@@ -1,12 +1,15 @@
-import {speed} from "../gameLogic/gameInfo.js";
+import { speed } from "../gameLogic/gameInfo.js";
 
 export function setupEventListeners(ws) {
+    let gameStarted = false;
+
     const throttle = (func, getSpeed) => {
         let lastFunc;
         let lastRan;
         return function() {
             const context = this;
             const args = arguments;
+            if (!gameStarted) return;  // Stop processing if game hasn't started
             const limit = getSpeed();
             if (!lastRan) {
                 func.apply(context, args);
@@ -24,6 +27,7 @@ export function setupEventListeners(ws) {
     };
 
     const handleKeyDown = (event) => {
+        if (!gameStarted) return;  // Stop key processing if game hasn't started
         let move = "";
         switch (event.key) {
             case 'ArrowUp': move = 'up'; break;
@@ -31,26 +35,24 @@ export function setupEventListeners(ws) {
             case 'ArrowLeft': move = 'left'; break;
             case 'ArrowRight': move = 'right'; break;
             case ' ':
-                console.log("bomb");
+                console.log("Bomb action taken");
                 ws.send(JSON.stringify({ type: 'bomb', payload: "bomb" }));
                 return;
-            default: return; // Ignore other keys
+            default: return;
         }
         ws.send(JSON.stringify({ type: 'move', payload: move }));
     };
 
     const throttledHandleKeyDown = throttle(handleKeyDown, getSpeed);
 
-    document.addEventListener('keydown', event => {
-        if (event.key === ' ') {
-            handleKeyDown(event);
-        }
-    });
-
     document.addEventListener('keydown', throttledHandleKeyDown);
+
+    return {
+        startGame: () => gameStarted = true,
+        stopGame: () => gameStarted = false
+    };
 }
 
 function getSpeed() {
-    console.log(speed)
-    return speed;
+    return speed;  // Assume speed is a constant or dynamic value fetched from somewhere
 }

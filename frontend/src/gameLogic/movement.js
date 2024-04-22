@@ -1,42 +1,48 @@
 
+// export let gameState = {
+//     isActive: false
+// }
+
 export function updatePlayerPosition(playerID, newPosition) {
-    const  oldPlayerElement = document.getElementById('player' + playerID)
+
+    // if (!gameState.isActive) {
+    //     console.log("Game has not started yet.");
+    //     return; // Do not process movement if the game is not active
+    // }
+    const oldPlayerElement = document.getElementById('player' + playerID)
 
     if (oldPlayerElement) {
         oldPlayerElement.removeAttribute('id');
     }
 
-
-
     const newSelector = `.cell[style*="grid-area: ${newPosition.Y + 1} / ${newPosition.X + 1}"]`; // Plus 1 to match 1-based indexing
     const newPlayerElement = document.querySelector(newSelector);
     if (newPlayerElement) {
         newPlayerElement.id = 'player' + playerID;
-    }else {
+    } else {
         console.log('no element found')
     }
 
     if (oldPlayerElement.classList.contains('blinking')) {
         oldPlayerElement.classList.remove('blinking');
         newPlayerElement.classList.add('blinking');
+
     }
 }
 
 export function updateField(pos, fieldCode) {
-        const cell = document.querySelector(`.cell[style*="grid-area: ${pos.Y + 1} / ${pos.X + 1}"]`);
-        if (cell) {
-            switch (fieldCode) {
-                case 9:
-                    cell.classList.add('speedPowerup');
-                    break;
-                case 10:
-                    cell.classList.add('rangePowerup');
-                    break;
-                case 11:
-                    cell.classList.add('bombPowerup');
-                    break;
-            }
+    const cell = document.querySelector(`.cell[style*="grid-area: ${pos.Y + 1} / ${pos.X + 1}"]`);
+    if (cell) {
+        switch (fieldCode) {
+            case 9:
+                cell.classList.add('speedPowerup');
+                break;
+            case 10:
+                cell.classList.add('rangePowerup');
+                break;
+            case 11:
+                cell.classList.add('bombPowerup');
+                break;
         }
+    }
 }
-
-

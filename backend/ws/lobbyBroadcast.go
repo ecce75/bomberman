@@ -1,9 +1,10 @@
 package ws
 
 import (
-	"github.com/google/uuid"
 	"log"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 func addToLobby(client *Client) {

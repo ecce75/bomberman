@@ -1,12 +1,10 @@
 import {lobbyView} from "/views/lobbyView.js";
 import {gameView} from "/views/gameView.js";
-import {updateField, updatePlayerPosition} from "../gameLogic/movement.js";
-import {removePlayerFromGame, handlePlayerLoseLife, disableImmunity} from "../gameLogic/player.js";
+import {updatePlayerPosition} from "../gameLogic/movement.js";
+import { removePlayerFromGame, handlePlayerLoseLife } from "../gameLogic/player.js";
 import { setupChat, handleChatMessage, broadcastPlayerDisconnect } from "../gameLogic/gameChat.js";
-import { normalizeField } from "../gameLogic/mapEdit.js";
 
 import {activateBomb, activateFlames} from "../gameLogic/player.js";
-import { updatePlayerPowerupsDisplay } from "../gameLogic/gameInfo.js";
 
 function setupWebSocket() {
     const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
@@ -24,27 +22,22 @@ function setupWebSocket() {
                 setupChat(ws);
                 break;
             case 'playerMovement':
-                if ( msg.payload.newPosition != undefined) {
+                console.log(msg.payload)
+                if (msg.payload.newPosition != undefined) {
                 updatePlayerPosition(msg.payload.playerID, msg.payload.newPosition);
                 }
                 break;
             case 'bomb':
+                console.log(msg.payload)
                 activateBomb(msg.payload);
                 break;
             case 'flames':
+                console.log(msg.payload)
                 activateFlames(msg.payload);
                 break;
-            case 'fieldUpdate':
-                normalizeField(msg.payload);
-                break;
-            case 'playerPowerup':
-                // update player powerups
-                updatePlayerPowerupsDisplay(msg.payload);
-                break;
             case "invalidUsername":
-                alert("Username already taken")
-                window.reload()
-                break
+                // alert("Username already taken")
+                // window.reload()
             // Handle other messages
             case "chatMessage":
                 // handle incoming chat messages
@@ -64,10 +57,7 @@ function setupWebSocket() {
                 // handle game over
                 alert("Game Over! Winner: " + msg.payload.winner);
                 window.location.reload();
-                break;
-            case 'immunity':
-                disableImmunity(msg.payload.playerID);
-                break;
+                break;  
         }
     };
     return ws;

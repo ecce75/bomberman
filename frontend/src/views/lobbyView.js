@@ -11,8 +11,8 @@ export function lobbyView() {
         attr: ['id', 'lobby'],
         children: [
             { tag: 'h1', children: 'Lobby' },
-            { tag: 'p', children: 'Waiting for more players...' },
-            { tag: 'p', children: ['Game will start in ... ', { tag: 'span', attr: ['id', 'countdown'], children: '' }, ' seconds.' ]},
+            { tag: 'p', children: 'Wah gwaan, mon!' },
+            { tag: 'p', children: ['Leh wait a likkle. ', { tag: 'span', attr: ['id', 'countdown'], children: '' }]},
             {
                 tag: 'p',
                 children: [

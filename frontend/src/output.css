@@ -599,6 +599,7 @@ video {
   width: 210px;
   margin: 40px;
   background-color: #C8C8C8;
+  border-radius: 8px;
 }
 
 .game-board {
@@ -606,6 +607,7 @@ video {
   border: 3px solid #FFFFFE;
   border-top: 3px solid black;
   border-bottom: 3px solid black;
+  border-radius: 4px;
 }
 
 .cell {
@@ -940,6 +942,13 @@ video {
   display:flex;
   align-items: center;
   gap: 5px;
+}
+
+.countdown-style {
+  font-size: 15px;
+  color: #332e2c;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .hover\:bg-green-600:hover {
