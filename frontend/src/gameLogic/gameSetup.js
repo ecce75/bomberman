@@ -107,7 +107,7 @@ function addPlayer(player) {
         username: player.Username,
         lives: player.Lives,
         powerups: {
-            bomb: 1,
+            bomb: 2,
             flamerange: 1,
             speed: 1,
         },
@@ -118,10 +118,4 @@ function addPlayer(player) {
         immunityTimer: null,
         activeBombsPlaced: 0,
     });
-}
-
-
-function placePlayer(board, player, startPosition) {
-    const startCell = board.children[startPosition];
-    createChild(startCell, player);
 }

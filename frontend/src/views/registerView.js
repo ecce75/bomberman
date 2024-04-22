@@ -22,7 +22,7 @@ export default function registerView() {
             {
                 tag: 'h1',
                 attr: ['class', 'text-white text-3xl font-bold mb-4'],
-                children: 'Enter your username'
+                children: 'Who yuh be, mon?'
             },
             {
                 tag: 'input',
@@ -31,7 +31,7 @@ export default function registerView() {
             {
                 tag: 'button',
                 attr: ['onclick', () => submitUsername(), 'class', 'bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded'],
-                children: 'Join Lobby'
+                children: 'Join in, mon!'
             }
         ]}]
     };

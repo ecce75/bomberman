@@ -599,6 +599,7 @@ video {
   width: 210px;
   margin: 40px;
   background-color: #C8C8C8;
+  border-radius: 8px;
 }
 
 .game-board {
@@ -606,6 +607,7 @@ video {
   border: 3px solid #FFFFFE;
   border-top: 3px solid black;
   border-bottom: 3px solid black;
+  border-radius: 4px;
 }
 
 .cell {

@@ -19,7 +19,7 @@ export function createChatbox() {
                 children: [
                     {
                         tag: 'input',
-                        attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Type your message...']
+                        attr: ['type', 'text', 'id', 'messageInput', 'placeholder', 'Type yuh message, mon!']
                     },
                     {
                         tag: 'button',
@@ -105,7 +105,7 @@ export function broadcastPlayerDisconnect(name) {
             {
                 tag: 'p',
                 attr: ['class', 'player-left'],
-                children: `${name} has left the game.`
+                children: `${name} a lef' di game, ya hear?.`
             }
         ]
     };
