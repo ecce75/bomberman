@@ -23,7 +23,7 @@ function setupWebSocket() {
                 break;
             case 'playerMovement':
                 console.log(msg.payload)
-                if ( msg.payload.newPosition != undefined) {
+                if (msg.payload.newPosition != undefined) {
                 updatePlayerPosition(msg.payload.playerID, msg.payload.newPosition);
                 }
                 break;

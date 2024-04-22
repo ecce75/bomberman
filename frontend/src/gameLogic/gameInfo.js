@@ -1,6 +1,8 @@
 import { createStructure } from "/framework.js";
 import { players } from "./gameSetup.js";
 
+export let speed = 300
+
 export function createTimerDisplay() {
     // Create the timer display structure
     const timerDisplay = createStructure({
@@ -81,12 +83,12 @@ function createPlayerDisplay(player) {
                         attr: ['class', 'player-lives'],
                         children: [
                             { tag: 'img', attr: ['src', `../public/images/pixelheart.png`, 'alt', 'Lives Icon'] },
-                            { tag: 'span',attr: ['id', 'lives'+player.id], children: `x${player.lives}` }
+                            { tag: 'span', attr: ['id', 'lives' + player.id], children: `x${player.lives}` }
                         ]
                     })
                 ]
             }),
-            createPowerupsDisplay(player.powerups)
+            createPowerupsDisplay(player)
         ]
     });
 }
@@ -99,21 +101,56 @@ export function updateLivesDisplay(playerID, lives) {
 
 }
 
-export function createPowerupsDisplay(powerups) {
-    // Check if the powerups object has any properties
-    if (Object.keys(powerups).length === 0) {
-        // Return an empty structure or a message if no powerups are present
+export function updatePlayerPowerupsDisplay(payload) {
+    let playerPowerupsDisplay = document.getElementById('powerups-display' + payload.playerID);
+    if (!playerPowerupsDisplay) {
+        playerPowerupsDisplay = document.getElementById('powerlist' + payload.playerID);
+    }
+
+    
+
+    var intPlayerID = parseInt(payload.playerID);
+    --intPlayerID;
+    
+    if (players[intPlayerID].powerups.speed != payload.powerups.Speed) {
+        speed -= 50;
+    }
+    players[intPlayerID].powerups.bomb = payload.powerups.Bomb;
+    players[intPlayerID].powerups.flamerange = payload.powerups.Flames;
+    players[intPlayerID].powerups.speed = payload.powerups.Speed;
+
+    if (playerPowerupsDisplay) {
+        playerPowerupsDisplay.replaceWith(createPowerupsDisplay(players[intPlayerID]));
+    }
+
+}
+
+export function createPowerupsDisplay(player) {
+    var powerups = player.powerups;
+    let hasPowerups = false;
+
+    // Check if any powerup is above the default level
+    for (let value of Object.values(player.powerups)) {
+        if (value > 1) {
+            hasPowerups = true;
+            break;
+        }
+    }
+
+    // If no powerups are above the default, return a structure saying so
+    if (!hasPowerups) {
         return createStructure({
             tag: 'div',
-            children: 'No powerups available'
+            attr: ['id', 'powerups-display' + player.id], // Optionally add an id for styling
+            children: 'No powerups aquired'
         });
     }
 
     // If powerups are present, create a list to display them
     return createStructure({
         tag: 'ul',
-        attr: ['class', 'powerups-list'], // Optionally add a class for styling
-        children: Object.entries(powerups).filter(([key, value]) => value === 2).map(([key, value]) => {
+        attr: ['class', 'powerups-list', 'id', 'powerlist' + player.id], // Optionally add a class for styling
+        children: Object.entries(powerups).map(([key, value]) => {
             let childrenDescription = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`;
             let iconPath = '';
 
@@ -134,9 +171,12 @@ export function createPowerupsDisplay(powerups) {
             }
 
             if (iconPath) {
-                childrenDescription = [
-                    { tag: 'img', attr: ['src', iconPath, 'alt', `${key} Powerup`] }
-                ];
+                childrenDescription = [{
+                    tag: 'img', attr: ['src', iconPath, 'alt', `${key} Powerup`],
+                },
+                {
+                    tag: 'span', children: `:${value - 1}`
+                }];
             }
 
             return createStructure({

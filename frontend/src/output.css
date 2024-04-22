@@ -589,7 +589,7 @@ video {
 
 @keyframes blinker {
   50% {
-    opacity: 0;
+    opacity: 0.5;
   }
 }
 
@@ -653,6 +653,11 @@ video {
   height: 50px;
 }
 
+.blinking {
+  animation: blinker 1s linear infinite;
+}
+
+
 .bomb {
   background-image: url('public/images/bomb.png');
   background-size: cover;
@@ -687,6 +692,23 @@ video {
   background-image: url('public/images/explosion-bottom.png');
   background-size: cover;
   opacity: 0.8;
+}
+
+.bombPowerup {
+  background-image: url('public/images/bomb_powerup.png');
+  background-size: cover;
+}
+
+
+
+.rangePowerup {
+  background-image: url('public/images/flamerange_powerup.png');
+  background-size: cover;
+}
+
+.speedPowerup {
+  background-image: url('public/images/speed_powerup.png');
+  background-size: cover;
 }
 
 .cell.destructible {
@@ -906,9 +928,27 @@ video {
   height: 30px; /* Size of the lives icon */
 }
 
+.powerups-list {
+  list-style: none;
+  padding: 0;
+}
+
 .powerups-list img {
   width: 20px;
   height: 20px;
+}
+
+.powerups-list li {
+  display:flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.countdown-style {
+  font-size: 15px;
+  color: #332e2c;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .hover\:bg-green-600:hover {

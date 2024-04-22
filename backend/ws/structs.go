@@ -69,10 +69,16 @@ type gameMap struct {
 	gameMap      [][]int
 	corners      [][2]int
 	activeFlames []Coordinates
+	activePowerups []PostFlameCoordinates
 }
 
 // Coordinates define a pair of x, y coordinates
 type Coordinates struct {
 	X int
 	Y int
+}
+
+type PostFlameCoordinates struct {
+	Position  Coordinates
+	FieldCode int
 }
