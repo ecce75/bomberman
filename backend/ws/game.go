@@ -162,7 +162,7 @@ func (gm *Game) generatePowerUp(position Coordinates) int {
 	// rand.New(rand.NewSource(time.Now().UnixNano()))
 	// numbers := []int{0, 0, 0, 0, 1}
 	chance := rand.Intn(100) // Generate a random number between 0 and 99
-	if chance < 10 && gm.Map.gameMap[position.Y][position.X] == 2 {
+	if chance < 13 && gm.Map.gameMap[position.Y][position.X] == 2 {
 		// 10% chance of spawning a powerup if the tile is a breakable block (code 2)
 		numbers := []int{9, 10, 11} // Powerup codes: 9 for speed, 10 for flames, 11 for bomb
 		number := numbers[rand.Intn(len(numbers))]
