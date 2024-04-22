@@ -128,7 +128,7 @@ func (gm *Game) generatePowerUp(position Coordinates) int {
 	number := numbers[rand.Intn(len(numbers))]
 	fmt.Println("Random number generated: ", number)
 	if number == 1 && gm.Map.gameMap[position.Y][position.X] == 2 {
-		numbers = []int{9, 10, 10, 11, 11}
+		numbers = []int{9, 10, 11}
 		number = numbers[rand.Intn(len(numbers))]
 		fmt.Println("Power-up generated at position: ", position)
 		return number

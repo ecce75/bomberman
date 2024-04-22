@@ -120,7 +120,7 @@ export function createPowerupsDisplay(powerups) {
             // Determine the correct icon path based on the type of powerup
             switch (key) {
                 case 'bomb':
-                    iconPath = '../public/images/bomb_powerup.png';
+                    iconPath = '../public/images/old_bomb_powerup.png';
                     break;
                 case 'flamerange':
                     iconPath = '../public/images/flamerange_powerup.png';

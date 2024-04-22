@@ -204,8 +204,6 @@ input:where([type='button']),
 input:where([type='reset']),
 input:where([type='submit']) {
   -webkit-appearance: button; /* 1 */
-  -moz-appearance: button;
-       appearance: button; /* 1 */
   background-color: transparent; /* 2 */
   background-image: none; /* 2 */
 }
@@ -250,8 +248,6 @@ Correct the cursor style of increment and decrement buttons in Safari.
 
 [type='search'] {
   -webkit-appearance: textfield; /* 1 */
-  -moz-appearance: textfield;
-       appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
 
@@ -692,7 +688,7 @@ video {
 }
 
 .bombPowerup {
-  background-image: url('public/images/bomb-powerup.png');
+  background-image: url('public/images/bomb_powerup.png');
   background-size: cover;
 }
 
