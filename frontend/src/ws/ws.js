@@ -8,7 +8,7 @@ import {activateBomb, activateFlames, disableImmunity} from "../gameLogic/player
 import { updatePlayerPowerupsDisplay } from "../gameLogic/gameInfo.js";
 
 function setupWebSocket() {
-    const ws = new WebSocket('wss://iriesphere.eu/ws'); // Adjust this URL to your server
+    const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
     ws.onmessage = function(event) {
         const msg = JSON.parse(event.data);
         switch(msg.type) {

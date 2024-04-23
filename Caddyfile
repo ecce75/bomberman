@@ -1,4 +1,0 @@
-iriesphere.eu {
-    reverse_proxy bomberman:8080
-	reverse_proxy /ws* bomberman:8080
-}
