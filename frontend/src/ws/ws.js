@@ -8,7 +8,7 @@ import {activateBomb, activateFlames, disableImmunity} from "../gameLogic/player
 import { updatePlayerPowerupsDisplay } from "../gameLogic/gameInfo.js";
 
 function setupWebSocket() {
-    const ws = new WebSocket('ws://localhost:8080/ws'); // Adjust this URL to your server
+    const ws = new WebSocket('wss://iriesphere.eu/ws'); // Adjust this URL to your server
     ws.onmessage = function(event) {
         const msg = JSON.parse(event.data);
         switch(msg.type) {
@@ -64,7 +64,7 @@ function setupWebSocket() {
                 break;
             case "gameOver":
                 // handle game over
-                alert("Game Over! Winner: " + msg.payload.winner);
+                alert("Ya done now! Real bombman: " + msg.payload.winner);
                 window.location.reload();
                 break;
             case 'immunity':
