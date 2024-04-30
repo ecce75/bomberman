@@ -3,7 +3,9 @@
 ## Introduction
 
 Welcome to our Bomberman game, a multiplayer arena game built using a custom mini-framework and powered by WebSockets. This game allows multiple players to compete against each other in a classic Bomberman-style arena.
+
 ### Getting Started
+
 #### Prerequisites
 
     A WebSocket-enabled browser or client
@@ -28,7 +30,17 @@ Welcome to our Bomberman game, a multiplayer arena game built using a custom min
 
 ![gameplay gif](game.gif)
 
-## Map Field Codes
+## Technical Details
+
+### WebSocket Connection
+
+Our game uses WebSockets to handle all game actions, including player movement, bomb drops, and power-up collection. The WebSocket connection is established between the client and server, enabling real-time communication and synchronization.
+
+### Custom Mini-Framework
+
+Our custom mini-framework provides a lightweight and efficient way to build and deploy the game. It handles WebSocket connections, game logic, and rendering, making it easy to develop and maintain the game.
+
+### Map Field Codes
 
 The game uses the following map field codes:
 
@@ -44,16 +56,6 @@ The game uses the following map field codes:
     9: "powerup: speed"
     10: "powerup: flameRange"
     11: "powerup: bombCount"
-
-## Technical Details
-
-### WebSocket Connection
-
-Our game uses WebSockets to handle all game actions, including player movement, bomb drops, and power-up collection. The WebSocket connection is established between the client and server, enabling real-time communication and synchronization.
-
-### Custom Mini-Framework
-
-Our custom mini-framework provides a lightweight and efficient way to build and deploy the game. It handles WebSocket connections, game logic, and rendering, making it easy to develop and maintain the game.
 
 ## Troubleshooting
 
@@ -71,4 +73,3 @@ If you encounter any issues while playing the game, please check the following:
     - Robin Rattasepp
     - Anton Urb
     - Chris RV
-    
